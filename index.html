@@ -1,0 +1,1960 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Create editable QR codes with simple static hosting. Update the destination without changing the QR image. No Cloudflare backend or database required.">
+  <title>EverQR V4 | Editable QR Code Manager</title>
+  <style>
+    :root{--bg:#07111d;--mid:#0b1b2b;--card:#0e2031;--line:#244057;--line2:#35546b;--fg:#eff7fb;--muted:#9fb8c9;--mint:#58e3c7;--mintdeep:#0b534d;--blue:#7faeff;--orange:#ffc87e;--red:#ffb1ad;--shadow:0 18px 55px #0004}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 46% 25% at 9% 1%,#164456 0,transparent 100%),radial-gradient(ellipse 40% 26% at 94% 0,#132f5b 0,transparent 100%),var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:var(--mint)}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}h1,h2,h3,p{margin-top:0}.app{max-width:1190px;padding:26px 24px 60px;margin:0 auto}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:29px}.brand{display:flex;align-items:center;gap:11px;font-size:22px;font-weight:850;letter-spacing:-1px}.mark{display:grid;place-items:center;background:linear-gradient(140deg,#54e5c9,#54a5e0);width:39px;height:39px;color:#092536;border-radius:12px;box-shadow:0 0 23px #58e3c72c}.mark svg{width:24px;height:24px}.brand em{font-style:normal;color:var(--mint)}.top-badges{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid #2b5a64;background:#0c2934;color:#bbeee7;font-size:11px;letter-spacing:.25px;padding:8px 12px;border-radius:25px;font-weight:750}.chip.alt{background:#14253b;border-color:#2d4561;color:#b5c8ed}
+    .hero{display:grid;grid-template-columns:1.55fr 1fr;align-items:center;gap:28px;margin:12px 0 32px}.kicker{text-transform:uppercase;letter-spacing:2.2px;font-size:11px;font-weight:850;color:var(--mint);margin-bottom:13px}.hero h1{font-size:clamp(34px,4.6vw,57px);line-height:1.11;letter-spacing:-2.4px;margin-bottom:16px;font-weight:850}.hero h1 span{color:var(--mint)}.hero p{font-size:16px;color:var(--muted);max-width:635px;margin-bottom:0}.steps{border:1px solid #29485d;border-radius:17px;background:linear-gradient(140deg,#10283b,#0b1b2c);padding:18px 21px;display:grid;gap:13px}.step{display:flex;gap:12px;align-items:center;font-size:13px;color:#cee1ee}.num{width:29px;height:29px;border-radius:9px;background:#1b4a52;color:var(--mint);display:grid;place-items:center;font-weight:900;font-size:12px;flex-shrink:0}.step b{color:white}
+    .layout{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr);gap:19px;align-items:start}.panel{background:linear-gradient(145deg,#102538 0,#0c1b2d 100%);border:1px solid var(--line);border-radius:21px;box-shadow:var(--shadow);padding:25px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}.panel-head h2{font-size:20px;line-height:1.25;letter-spacing:-.6px;margin:0}.overline{font-size:11px;color:#8fb3c8;text-transform:uppercase;letter-spacing:1.4px;font-weight:800}
+    .setup{background:#0b1c2c;border:1px solid #31506a;border-radius:15px;margin-bottom:21px;overflow:hidden}.setup summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;list-style:none;font-weight:800;font-size:13px}.setup summary::-webkit-details-marker{display:none}.setup summary:after{content:'⌄';font-size:21px;line-height:1;color:#9bc4cf}.setup[open] summary:after{transform:rotate(180deg)}.setup-body{padding:3px 16px 17px}.setup-body p{color:var(--muted);font-size:12px;margin:0 0 12px}.label{display:block;color:#e0eaf2;font-size:13px;font-weight:750;margin:0 0 8px}.input{width:100%;border-radius:11px;background:#091827;border:1px solid #37566c;color:#f4fcff;padding:12px 14px;outline:0;min-height:46px}.input:focus{border-color:var(--mint);box-shadow:0 0 0 3px #58e3c71d}.input::placeholder{color:#708da4}.help{color:#91acc1;font-size:12px;margin:7px 0 0}.input-row{display:flex;align-items:center;gap:9px}.input-row .input{min-width:0;flex:1}.muted{color:var(--muted)}.small{font-size:12px}.mono{font:12px/1.5 ui-monospace,Consolas,monospace;overflow-wrap:anywhere}.notice{background:#0b3034;border:1px solid #225b60;color:#caede8;border-radius:12px;padding:12px 14px;font-size:12.5px}.notice.warning{background:#332919;border-color:#6b4d27;color:#f8dcae}.notice.error{background:#38202b;border-color:#7b4048;color:#ffd1d6}.notice.success{background:#153b34;border-color:#286e5c;color:#c4fae8}.notice:empty{display:none}.status-bubble{color:#b9c9d8;background:#1d3145;border:1px solid #344b64;padding:4px 9px;border-radius:30px;font-weight:700;font-size:11px;white-space:nowrap}.status-bubble.live{color:var(--mint);background:#0d352f;border-color:#295e56}
+    .tabnav{display:flex;gap:5px;padding:4px;background:#081724;border:1px solid #284357;border-radius:12px;margin-bottom:21px}.tab{border:0;background:transparent;flex:1;padding:11px 13px;border-radius:9px;color:#a4b9c9;font-weight:750}.tab[aria-selected=true]{background:#21445a;color:#fff;box-shadow:inset 0 1px #ffffff12}.field{margin-bottom:17px}.field label{display:block;font-weight:750;font-size:13px;margin-bottom:7px}.field span.required{color:var(--mint)}.form-actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:21px}.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 16px;border-radius:11px;border:1px solid transparent;font-size:13px;font-weight:800;min-height:44px;text-decoration:none;transition:transform .15s,border-color .15s,background .15s}.btn:hover:not(:disabled){transform:translateY(-1px)}.btn-primary{background:var(--mint);color:#06322f}.btn-primary:hover{background:#7af9e1}.btn-secondary{background:#18344a;color:#eaf5ff;border-color:#34516a}.btn-secondary:hover{border-color:#80aaaf}.btn-ghost{background:#0d2232;color:#bdd4e6;border-color:#2e4960}.btn-sm{min-height:34px;padding:7px 11px;font-size:11.5px;border-radius:9px}.btn:focus-visible,summary:focus-visible{outline:2px solid #8cf7ea;outline-offset:2px}.divider{border:0;border-top:1px solid #2a475d;margin:22px 0}.tip{font-size:12px;color:#a6c2d5;display:flex;gap:8px;align-items:start;margin-top:12px}
+    .preview-panel{position:sticky;top:16px}.qr-stage{border:1px dashed #395a6c;border-radius:16px;min-height:322px;background:radial-gradient(circle at center,#1c3b4b,#0b1b2a 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:21px 18px;text-align:center}.qr-frame{width:min(100%,265px);aspect-ratio:1;background:white;padding:12px;display:grid;place-items:center;border-radius:16px;box-shadow:0 17px 30px #0004}.qr-frame svg{width:100%;height:auto;display:block}.qr-empty{font-size:55px;color:#d1e1eb;line-height:1}.qr-empty-text{font-size:13px;color:#91abbc;margin:0}.qr-label{font-size:13px;font-weight:750;max-width:100%;overflow-wrap:anywhere}.preview-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.permanent{padding:14px;border:1px solid #304c62;background:#0b1c2b;border-radius:12px;margin-top:16px}.permanent-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.permanent-head strong{font-size:12px}.permanent-address{font-size:12px;overflow-wrap:anywhere;color:#b6eee0;font-family:ui-monospace,Consolas,monospace}.preview-help{font-size:12px;color:#a7bfd0;margin:13px 0 0;line-height:1.6}
+    .wide{margin-top:20px}.subhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.subhead h2{font-size:20px;letter-spacing:-.6px;margin:0}.link-list{display:grid;gap:9px;margin-top:16px}.link-card{border:1px solid #2b485c;border-radius:13px;background:#0b1d2e;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:14px 16px;align-items:center}.link-card strong{display:block;margin-bottom:3px;font-size:14px;overflow-wrap:anywhere}.link-card .target-line{font-size:12px;color:#9eb8ca;overflow-wrap:anywhere}.link-card .qrlink-line{font-size:11px;color:#5ddbcc;font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere;margin-top:5px}.link-acts{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.empty-list{border:1px dashed #33546c;padding:27px;text-align:center;border-radius:13px;background:#0b1b29;color:#a8c2d3}.mini-badge{display:inline-block;background:#352b20;color:#ffda9b;border:1px solid #6e5230;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:750;margin-left:7px;vertical-align:middle}.mini-badge.done{background:#133c33;color:#8ff1d7;border-color:#346c60}
+    .publish-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:19px}.publish-card{padding:21px;border-radius:16px;background:#0a1b29;border:1px solid #304e63}.pub-title{display:flex;align-items:center;gap:10px}.pub-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;color:var(--mint);background:#183a42;font-size:19px}.pub-title h3{margin:0;font-size:16px}.pub-copy{margin:11px 0 16px;color:#a8c3d4;font-size:12.5px;line-height:1.65}.pub-copy strong{color:white}.file-steps{color:#b2ccdb;font-size:12px;margin-bottom:13px;line-height:1.85}.pub-actions{display:flex;gap:8px;flex-wrap:wrap}.gitfields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.gitfields .field{margin-bottom:0}.gitfields .full{grid-column:1/-1}.gitfields .input{min-height:40px;padding:9px 10px;font-size:13px}.publish-note{margin-top:16px}.fineprint{font-size:12px;color:#819caf;line-height:1.8}.footer{margin-top:34px;text-align:center;color:#839bab;font-size:12px}.site-url-preview{margin-top:10px;font-size:11.5px;color:#96c7d4;overflow-wrap:anywhere}
+    [hidden]{display:none!important}@media(max-width:930px){.hero{grid-template-columns:1fr}.steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.step{align-items:start}.layout{grid-template-columns:1fr 1fr}.panel{padding:21px}.publish-grid{grid-template-columns:1fr 1fr}}@media(max-width:750px){.layout{grid-template-columns:1fr}.preview-panel{position:static}.steps{grid-template-columns:1fr;gap:8px}.hero h1{letter-spacing:-1.5px}.publish-grid{grid-template-columns:1fr}.top{align-items:flex-start}.top-badges .chip.alt{display:none}.app{padding:20px 15px 43px}.panel{padding:19px}.link-card{grid-template-columns:1fr}.link-acts{justify-content:flex-start}}@media(max-width:420px){.hero h1{font-size:35px}.input-row{flex-wrap:wrap}.input-row .btn{width:100%}.brand{font-size:20px}.top-badges .chip{font-size:10px}.form-actions .btn{flex:1}.pub-actions .btn{flex:1}}
+
+    /* QR manager v4 */
+    .top-nav{font-size:12px;text-decoration:none;border:1px solid #387266;background:#123a3e;color:#8efce1;border-radius:999px;padding:9px 14px;font-weight:800;white-space:nowrap}
+    .top-nav:hover{background:#1c4b4e}.manager-heading{align-items:start}.manager-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+    .manager-stat{border:1px solid #31536a;background:#0b2132;padding:15px;border-radius:13px;display:flex;flex-direction:column;gap:3px}.manager-stat span{font-size:11px;color:#9db9cd;font-weight:650}.manager-stat strong{font-size:26px;color:#ecfcff;line-height:1.2;font-weight:830}
+    .manager-tools{display:grid;grid-template-columns:minmax(190px,2fr) minmax(145px,1fr) minmax(145px,1fr) auto;gap:9px}.manager-tools .input{min-height:43px;padding:9px 11px;font-size:13px}.manager-tools .btn{white-space:nowrap}.manager-bulk{display:flex;align-items:center;flex-wrap:wrap;gap:11px;padding-top:15px;justify-content:flex-start}.bulk-label{display:flex;align-items:center;gap:9px;color:#c4d8e5;font-size:12px;cursor:pointer}.bulk-label input,.row-select{accent-color:var(--mint);width:17px;height:17px;cursor:pointer}.btn-danger{background:#3e222f;border-color:#965767;color:#ffd0d5}.btn-danger:hover{background:#5b293a}.manager-bulk #publishChangeShortcut{margin-left:auto}
+    .link-card{grid-template-columns:auto minmax(0,1fr);gap:12px;padding:17px;align-items:start}.link-card.is-current{border-color:#478f85;box-shadow:inset 0 0 0 1px #478f8552}.link-card.is-trashed{opacity:.85;border-color:#644b51}.link-data{min-width:0}.link-card-header{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:6px}.link-card-name{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}.link-card-name strong{font-size:15px;margin:0}.mini-badge{margin-left:0}.mini-badge.paused{background:#233049;color:#b0c8ff;border-color:#445f85}.mini-badge.deleted{background:#40232c;color:#ffc6cd;border-color:#80505a}
+    .link-details{display:grid;gap:3px}.link-meta{color:#809db0;font-size:11px;margin-top:5px}.link-acts{justify-content:flex-start;margin-top:13px}.link-acts .btn{min-height:32px}.more-actions{display:inline-flex;position:relative}.more-actions summary{list-style:none;border-radius:9px;background:#0e293a;border:1px solid #325166;padding:7px 11px;font-size:11.5px;font-weight:800;color:#c8e0ed;cursor:pointer;line-height:1.6}.more-actions summary::-webkit-details-marker{display:none}.more-actions[open]{z-index:3}.more-actions-menu{position:absolute;right:0;top:calc(100% + 5px);min-width:165px;background:#102b3a;border:1px solid #3e6379;padding:6px;border-radius:10px;display:grid;gap:3px;box-shadow:0 14px 28px #0008}.more-actions-menu button{border:0;border-radius:7px;background:none;color:#d5eaf7;padding:9px 10px;text-align:left;font-size:12px;cursor:pointer;white-space:nowrap}.more-actions-menu button:hover,.more-actions-menu button:focus-visible{background:#25465b;outline:none}.more-actions-menu .danger{color:#ffb9bc}.no-results{border:1px dashed #33546c;padding:27px;text-align:center;border-radius:13px;background:#0b1b29;color:#a8c2d3}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:1000px){.manager-tools{grid-template-columns:1fr 1fr}.manager-tools #qrSearch{grid-column:1/-1}.manager-tools #newQRShortcut{min-width:140px}}
+    @media(max-width:600px){.manager-stats{grid-template-columns:repeat(2,1fr)}.manager-tools{grid-template-columns:1fr 1fr}.manager-tools #newQRShortcut{grid-column:1/-1}.manager-heading{display:block}.manager-heading .pub-actions{margin-top:14px}.manager-bulk #publishChangeShortcut{margin-left:0}.link-card{grid-template-columns:auto minmax(0,1fr)}.link-card .link-acts{gap:6px}.link-card .link-acts .btn{padding:8px 10px}.more-actions-menu{right:auto;left:0}}
+    .site-picker{margin-top:15px;padding:13px;border:1px solid #31506a;border-radius:12px;background:#102536}.site-picker .input-row{margin-top:8px}.site-picker .input{font-size:12px}.site-change-note{margin-top:12px!important}.folder-label{margin-top:5px;font-size:11px;color:#81b3cf;overflow-wrap:anywhere}.publish-folder{border:1px solid #3d5c6e;background:#0b2836;border-radius:13px;padding:14px 16px;margin-top:15px;overflow-wrap:anywhere}.publish-folder strong{color:#8af0dc}.record-folder-note{margin:12px 0;padding:12px 14px;border:1px solid #5e6039;border-radius:12px;background:#2c2d22;color:#f0dfb7;font-size:12px;line-height:1.6}.record-folder-note .btn{margin-top:9px}
+    @media(max-width:500px){.site-picker .input-row{flex-wrap:wrap}.site-picker .input-row button{width:100%}.setup-body>.input-row{flex-wrap:wrap}.setup-body>.input-row button{width:100%}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="2.5" y="2.5" width="7" height="7" rx="1"/><rect x="14.5" y="2.5" width="7" height="7" rx="1"/><rect x="2.5" y="14.5" width="7" height="7" rx="1"/><path d="M15 15h3v3h-3zm6 0v3m-3 3h3m-6 0v-2"/></svg></div><div>Ever<em>QR</em> <span style="font-size:11px;font-weight:600;color:#8faabb;letter-spacing:.3px">MANAGER</span></div></div>
+    <div class="top-badges"><a class="top-nav" href="#workspace" id="changeSiteShortcut">Change website folder</a><a class="top-nav" href="#myLinks">Manage QR codes</a><span class="chip">NO BACKEND</span></div>
+  </header>
+
+  <section class="hero" aria-label="Introduction">
+    <div><div class="kicker">Create once. Keep the code.</div><h1>One QR code.<br><span>Change the URL anytime.</span></h1><p>Generate a QR, download it, and update where it goes later. Manage, rename, pause, duplicate, download and remove QR codes in one dashboard — without server code.</p></div>
+    <div class="steps"><div class="step"><span class="num">01</span><div><b>Enter your destination</b><br>Paste the website you want people to visit.</div></div><div class="step"><span class="num">02</span><div><b>Create and download</b><br>Print or share the same QR image.</div></div><div class="step"><span class="num">03</span><div><b>Replace the URL later</b><br>Publish the new destination; keep the QR.</div></div></div>
+  </section>
+
+  <div id="globalNotice" role="status" aria-live="polite" class="notice" hidden style="margin-bottom:18px"></div>
+  <div class="layout" id="workspace">
+    <section class="panel" aria-label="QR editor">
+      <div class="panel-head"><h2>QR code editor</h2><span class="overline">Simple &amp; editable</span></div>
+      <details class="setup" id="setupPanel">
+        <summary><span>Website folder settings · change anytime</span><span id="siteStatus" class="status-bubble">Not set</span></summary>
+        <div class="setup-body"><p>Your permanent link must live on a public website. You can use GitHub Pages, your existing website, or another static host. <strong>No Cloudflare Worker needed.</strong></p>
+          <label class="label" for="siteBase">Website folder address</label>
+          <div class="input-row"><input class="input" id="siteBase" type="url" placeholder="https://username.github.io/everqr/" autocomplete="url" spellcheck="false"><button class="btn btn-secondary btn-sm" id="saveSite" type="button">Save address</button></div>
+          <p class="help">Enter the PUBLIC folder URL holding <code>go.html</code> and <code>links.json</code>. You can switch folders whenever you want. <strong>Existing QR codes keep their original printed addresses.</strong></p>
+          <p id="sitePreview" class="site-url-preview"></p>
+          <div id="sitePicker" class="site-picker" hidden><label class="label" for="knownSites">Previously used website folders</label><div class="input-row"><select class="input" id="knownSites" aria-label="Previously used website folders"></select><button class="btn btn-secondary btn-sm" id="useKnownSite" type="button">Switch to folder</button></div><p class="help">Switch back to an old folder to publish edits to its existing QR codes.</p></div>
+          <p class="site-change-note help">Changing this folder changes where <strong>NEW</strong> QR codes are created. To reuse an old destination on the new folder, select that QR in Manage QR codes and choose <strong>Duplicate QR</strong> (makes a new QR). Old printed QR codes cannot be reprogrammed to a new folder.</p>
+          <p class="help">Need a free address? <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank" rel="noopener noreferrer">Set up GitHub Pages</a> to get <code>username.github.io</code> at no hosting charge. Free addresses are not guaranteed forever.</p>
+        </div>
+      </details>
+
+      <div class="tabnav" role="tablist" aria-label="QR editor mode"><button class="tab" id="tabCreate" role="tab" aria-selected="true" type="button">+ Create a QR</button><button class="tab" id="tabEdit" role="tab" aria-selected="false" type="button">↗ Change destination</button></div>
+
+      <form id="createForm" novalidate>
+        <div class="field"><label for="createName">Name your QR <span class="muted small">(optional)</span></label><input class="input" id="createName" maxlength="90" placeholder="Example: Event poster / My website" autocomplete="off"></div>
+        <div class="field"><label for="createUrl">Where should people go? <span class="required">*</span></label><input class="input" id="createUrl" required type="text" inputmode="url" placeholder="https://www.example.com" autocapitalize="off" autocomplete="url" spellcheck="false"><p class="help">You can paste a normal website link. You can change this destination later.</p></div>
+        <div class="form-actions"><button class="btn btn-primary" id="createBtn" type="submit">Create my QR <span aria-hidden="true">→</span></button><button class="btn btn-secondary" type="button" id="createPublishBtn">Create &amp; publish</button></div>
+        <p class="tip"><span aria-hidden="true">ⓘ</span><span>Creating saves your QR in this browser. Publishing makes it work for anyone scanning it.</span></p>
+      </form>
+
+      <form id="editForm" novalidate hidden>
+        <div class="field"><label for="selectExisting">Select your QR code</label><select class="input" id="selectExisting" aria-label="Select QR code"><option value="">Select an existing QR...</option></select></div>
+        <div class="field"><label for="editUrl">New destination URL <span class="required">*</span></label><input class="input" id="editUrl" type="text" inputmode="url" placeholder="Paste your new URL here" required autocapitalize="off" autocomplete="off" spellcheck="false"><p class="help">Only the destination changes. The QR image and the address printed inside it stay the same.</p></div>
+        <div id="editSiteNotice" class="record-folder-note" hidden><span id="editSiteNoticeText"></span><div><button type="button" id="switchToRecordSite" class="btn btn-secondary btn-sm">Switch to this QR's folder to publish</button></div></div>
+        <div class="form-actions"><button class="btn btn-primary" id="saveEditBtn" type="submit">Save new URL</button><button class="btn btn-secondary" type="button" id="editPublishBtn">Save &amp; publish</button></div>
+      </form>
+    </section>
+
+    <aside class="panel preview-panel" aria-label="QR preview">
+      <div class="panel-head"><h2>Your QR preview</h2><span class="overline">Print ready</span></div>
+      <div class="qr-stage"><div class="qr-frame" id="qrFrame"><div class="qr-empty" aria-hidden="true">▦</div><p class="qr-empty-text">Your QR will appear here</p></div><div class="qr-label" id="qrLabel">Ready when you are</div><div id="qrStatus" class="small muted">No QR selected</div></div>
+      <div class="preview-actions"><button class="btn btn-primary" id="downloadPNG" type="button" disabled>↓ Download PNG</button><button class="btn btn-secondary" id="downloadSVG" type="button" disabled>↓ Download SVG</button></div>
+      <div class="permanent" id="permanentBlock" hidden><div class="permanent-head"><strong>Your permanent QR address</strong><div class="pub-actions"><button class="btn btn-ghost btn-sm" id="copyQRLink" type="button">Copy</button><button class="btn btn-ghost btn-sm" id="testQRLink" type="button">Test</button></div></div><div class="permanent-address" id="permanentText"></div></div>
+      <p class="preview-help"><strong>Important:</strong> the QR image does not expire by itself. Your web hosting, <code>go.html</code>, and <code>links.json</code> must remain available for editable redirection to work.</p>
+    </aside>
+  </div>
+
+  <section class="panel wide manager" id="myLinks" aria-label="QR code manager">
+    <div class="subhead manager-heading"><div><div class="overline">Your workspace</div><h2>Manage QR codes <span class="muted" id="qrCount">(0)</span></h2><p class="small muted" style="margin:6px 0 0">Find, edit, organize and control every QR code you've created.</p></div><div class="pub-actions"><button class="btn btn-ghost btn-sm" id="exportBackup" type="button">↓ Backup</button><button class="btn btn-ghost btn-sm" id="importBackup" type="button">↑ Import</button><input id="importFile" type="file" accept=".json,application/json" hidden></div></div>
+    <div class="manager-stats" aria-label="QR statistics">
+      <div class="manager-stat"><span>Total saved</span><strong id="statAll">0</strong></div><div class="manager-stat"><span>Active</span><strong id="statActive">0</strong></div><div class="manager-stat"><span>Paused</span><strong id="statPaused">0</strong></div><div class="manager-stat"><span>To publish</span><strong id="statPending">0</strong></div>
+    </div>
+    <div class="manager-tools"><label class="sr-only" for="qrSearch">Search saved QR codes</label><input class="input" id="qrSearch" placeholder="Search name, URL or QR ID…" autocomplete="off"><label class="sr-only" for="qrFilter">Filter QR codes</label><select class="input" id="qrFilter"><option value="all">All QR codes</option><option value="active">Active only</option><option value="paused">Paused</option><option value="pending">Needs publishing</option><option value="trash">Trash / deleted</option></select><label class="sr-only" for="qrSort">Sort QR codes</label><select class="input" id="qrSort"><option value="updated">Recently updated</option><option value="created">Newest created</option><option value="oldest">Oldest first</option><option value="name">Name A–Z</option></select><button class="btn btn-primary" type="button" id="newQRShortcut">+ New QR</button></div>
+    <div class="manager-bulk"><label class="bulk-label"><input id="selectAllQR" type="checkbox"> Select visible QR codes</label><span class="small muted" id="selectedCount">0 selected</span><button class="btn btn-danger btn-sm" id="deleteSelected" type="button" disabled>Move selected to trash</button><button class="btn btn-secondary btn-sm" id="publishChangeShortcut" type="button">Publish changes</button></div>
+    <div id="managerPendingNotice" class="notice warning" hidden style="margin-top:13px"></div>
+    <div id="linkList" class="link-list"><div class="empty-list">No QR codes yet. Create your first above.</div></div>
+    <p class="help" style="margin-top:17px"><strong>How deletion works:</strong> Deleted QR codes go to Trash first. Once you publish the updated <code>links.json</code>, old printed QR codes for those IDs will no longer redirect. You can restore from Trash and republish. Changes here are local until published.</p>
+  </section>
+
+  <section class="panel wide" id="publishArea" aria-label="Publish QR destinations"><div class="subhead"><h2>Make your QR links live</h2><span class="overline">One-time setup, easy updates</span></div><p class="small muted">Choose one way to publish. Each website folder has its own <code>links.json</code>; only QR codes belonging to the selected folder will be published.</p>
+    <div id="publishFolder" class="publish-folder" role="status"></div>
+    <div class="publish-grid">
+      <section class="publish-card" aria-label="Manual publishing"><div class="pub-title"><div class="pub-icon">⇩</div><h3>Option A · Download &amp; replace</h3></div><p class="pub-copy"><strong>No account connection.</strong> Works with any static hosting provider. Upload the redirect page initially (or when upgrading from an older EverQR version), then replace the link directory after each edit.</p><div class="file-steps"><b>First time / upgrading:</b> upload the latest <code>go.html</code> + <code>links.json</code> into the same website folder.<br><b>After editing, pausing or deleting:</b> replace <code>links.json</code>.</div><div class="pub-actions"><button class="btn btn-secondary" id="downloadRouter" type="button">↓ Download go.html</button><button class="btn btn-primary" id="downloadLinks" type="button">↓ Download links.json</button><button class="btn btn-ghost" id="markUploaded" type="button">✓ I've uploaded it</button></div><p class="help">Keep the same website address and <code>go.html</code> filename. For QR Pause support, replace <code>go.html</code> if you used an earlier EverQR version. Download alone does not publish files. Scan-test after uploading.</p></section>
+      <section class="publish-card" aria-label="GitHub publishing"><div class="pub-title"><div class="pub-icon">↗</div><h3>Option B · Publish in one click</h3></div><p class="pub-copy"><strong>GitHub Pages only.</strong> After one-time setup, change a URL and click <b>Save &amp; publish</b>. No Cloudflare or custom backend needed.</p><div class="gitfields"><div class="field"><label for="ghOwner" class="label">GitHub username</label><input class="input" id="ghOwner" placeholder="your-username" spellcheck="false" autocomplete="off"></div><div class="field"><label for="ghRepo" class="label">Repository</label><input class="input" id="ghRepo" placeholder="everqr" spellcheck="false" autocomplete="off"></div><div class="field"><label for="ghBranch" class="label">Branch</label><input class="input" id="ghBranch" placeholder="main" spellcheck="false"></div><div class="field"><label for="ghFolder" class="label">Folder inside repository</label><input class="input" id="ghFolder" placeholder="Root (leave empty)" spellcheck="false" autocomplete="off"></div><div class="field"><label for="ghToken" class="label">Access token</label><input class="input" id="ghToken" type="password" placeholder="github_pat_..." autocomplete="off" spellcheck="false"></div></div>
+        <p class="help" style="margin:0 0 12px">Use a <strong>fine-grained token</strong> with <strong>Contents: Read and write</strong> for this repository. The token is never saved in browser storage. The repository must have GitHub Pages enabled. If you host from a subfolder, enter that folder name above; this must match your website URL.</p>
+        <div class="pub-actions"><button class="btn btn-secondary" id="suggestSite" type="button">Use GitHub Pages URL</button><button class="btn btn-primary" id="publishGithub" type="button">↗ Publish updates</button><button class="btn btn-ghost" id="loadGithub" type="button">Load from GitHub</button></div>
+        <p class="help">GitHub Pages offers a free <code>github.io</code> address for public repositories. Publication can take time. Your destination URLs in <code>links.json</code> are public.</p>
+      </section>
+    </div>
+    <div class="notice warning publish-note"><strong>Why is hosting still needed?</strong> A QR code is just an address, not a live database. To replace a destination for everyone, something at the permanent QR address must be updated online. Here that is a small <code>links.json</code> file — no server code is required.</div>
+  </section>
+
+  <footer class="footer">EverQR V4 · QR generation works offline · No CDN · No Cloudflare Worker · Scan-test before printing.</footer>
+</div>
+<script>
+/* Bundled QR encoding library (MIT) - source license included in ZIP. */
+(function(){
+  var modules={"QR8bitByte":function(require,module,exports){
+var QRMode = require('QRMode');
+
+function QR8bitByte(data) {
+	this.mode = QRMode.MODE_8BIT_BYTE;
+	this.data = data;
+}
+
+QR8bitByte.prototype = {
+
+	getLength : function() {
+		return this.data.length;
+	},
+	
+	write : function(buffer) {
+		for (var i = 0; i < this.data.length; i++) {
+			// not JIS ...
+			buffer.put(this.data.charCodeAt(i), 8);
+		}
+	}
+};
+
+module.exports = QR8bitByte;
+
+},
+"QRBitBuffer":function(require,module,exports){
+function QRBitBuffer() {
+	this.buffer = [];
+	this.length = 0;
+}
+
+QRBitBuffer.prototype = {
+
+	get : function(index) {
+		var bufIndex = Math.floor(index / 8);
+		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+	},
+	
+	put : function(num, length) {
+		for (var i = 0; i < length; i++) {
+			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+		}
+	},
+	
+	getLengthInBits : function() {
+		return this.length;
+	},
+	
+	putBit : function(bit) {
+	
+		var bufIndex = Math.floor(this.length / 8);
+		if (this.buffer.length <= bufIndex) {
+			this.buffer.push(0);
+		}
+	
+		if (bit) {
+			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
+		}
+	
+		this.length++;
+	}
+};
+
+module.exports = QRBitBuffer;
+
+},
+"QRErrorCorrectLevel":function(require,module,exports){
+module.exports = {
+	L : 1,
+	M : 0,
+	Q : 3,
+	H : 2
+};
+
+
+},
+"QRMaskPattern":function(require,module,exports){
+module.exports = {
+	PATTERN000 : 0,
+	PATTERN001 : 1,
+	PATTERN010 : 2,
+	PATTERN011 : 3,
+	PATTERN100 : 4,
+	PATTERN101 : 5,
+	PATTERN110 : 6,
+	PATTERN111 : 7
+};
+
+},
+"QRMath":function(require,module,exports){
+var QRMath = {
+
+	glog : function(n) {
+	
+		if (n < 1) {
+			throw new Error("glog(" + n + ")");
+		}
+		
+		return QRMath.LOG_TABLE[n];
+	},
+	
+	gexp : function(n) {
+	
+		while (n < 0) {
+			n += 255;
+		}
+	
+		while (n >= 256) {
+			n -= 255;
+		}
+	
+		return QRMath.EXP_TABLE[n];
+	},
+	
+	EXP_TABLE : new Array(256),
+	
+	LOG_TABLE : new Array(256)
+
+};
+	
+for (var i = 0; i < 8; i++) {
+	QRMath.EXP_TABLE[i] = 1 << i;
+}
+for (var i = 8; i < 256; i++) {
+	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
+		^ QRMath.EXP_TABLE[i - 5]
+		^ QRMath.EXP_TABLE[i - 6]
+		^ QRMath.EXP_TABLE[i - 8];
+}
+for (var i = 0; i < 255; i++) {
+	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
+}
+
+module.exports = QRMath;
+
+},
+"QRMode":function(require,module,exports){
+module.exports = {
+    MODE_NUMBER :       1 << 0,
+    MODE_ALPHA_NUM :    1 << 1,
+    MODE_8BIT_BYTE :    1 << 2,
+    MODE_KANJI :        1 << 3
+};
+
+},
+"QRPolynomial":function(require,module,exports){
+var QRMath = require('QRMath');
+
+function QRPolynomial(num, shift) {
+	if (num.length === undefined) {
+		throw new Error(num.length + "/" + shift);
+	}
+
+	var offset = 0;
+
+	while (offset < num.length && num[offset] === 0) {
+		offset++;
+	}
+
+	this.num = new Array(num.length - offset + shift);
+	for (var i = 0; i < num.length - offset; i++) {
+		this.num[i] = num[i + offset];
+	}
+}
+
+QRPolynomial.prototype = {
+
+	get : function(index) {
+		return this.num[index];
+	},
+	
+	getLength : function() {
+		return this.num.length;
+	},
+	
+	multiply : function(e) {
+	
+		var num = new Array(this.getLength() + e.getLength() - 1);
+	
+		for (var i = 0; i < this.getLength(); i++) {
+			for (var j = 0; j < e.getLength(); j++) {
+				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
+			}
+		}
+	
+		return new QRPolynomial(num, 0);
+	},
+	
+	mod : function(e) {
+	
+		if (this.getLength() - e.getLength() < 0) {
+			return this;
+		}
+	
+		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
+	
+		var num = new Array(this.getLength() );
+		
+		for (var i = 0; i < this.getLength(); i++) {
+			num[i] = this.get(i);
+		}
+		
+		for (var x = 0; x < e.getLength(); x++) {
+			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
+		}
+	
+		// recursive call
+		return new QRPolynomial(num, 0).mod(e);
+	}
+};
+
+module.exports = QRPolynomial;
+
+},
+"QRRSBlock":function(require,module,exports){
+var QRErrorCorrectLevel = require('QRErrorCorrectLevel');
+
+function QRRSBlock(totalCount, dataCount) {
+	this.totalCount = totalCount;
+	this.dataCount  = dataCount;
+}
+
+QRRSBlock.RS_BLOCK_TABLE = [
+
+	// L
+	// M
+	// Q
+	// H
+
+	// 1
+	[1, 26, 19],
+	[1, 26, 16],
+	[1, 26, 13],
+	[1, 26, 9],
+	
+	// 2
+	[1, 44, 34],
+	[1, 44, 28],
+	[1, 44, 22],
+	[1, 44, 16],
+
+	// 3
+	[1, 70, 55],
+	[1, 70, 44],
+	[2, 35, 17],
+	[2, 35, 13],
+
+	// 4		
+	[1, 100, 80],
+	[2, 50, 32],
+	[2, 50, 24],
+	[4, 25, 9],
+	
+	// 5
+	[1, 134, 108],
+	[2, 67, 43],
+	[2, 33, 15, 2, 34, 16],
+	[2, 33, 11, 2, 34, 12],
+	
+	// 6
+	[2, 86, 68],
+	[4, 43, 27],
+	[4, 43, 19],
+	[4, 43, 15],
+	
+	// 7		
+	[2, 98, 78],
+	[4, 49, 31],
+	[2, 32, 14, 4, 33, 15],
+	[4, 39, 13, 1, 40, 14],
+	
+	// 8
+	[2, 121, 97],
+	[2, 60, 38, 2, 61, 39],
+	[4, 40, 18, 2, 41, 19],
+	[4, 40, 14, 2, 41, 15],
+	
+	// 9
+	[2, 146, 116],
+	[3, 58, 36, 2, 59, 37],
+	[4, 36, 16, 4, 37, 17],
+	[4, 36, 12, 4, 37, 13],
+	
+	// 10		
+	[2, 86, 68, 2, 87, 69],
+	[4, 69, 43, 1, 70, 44],
+	[6, 43, 19, 2, 44, 20],
+	[6, 43, 15, 2, 44, 16],
+
+	// 11
+	[4, 101, 81],
+	[1, 80, 50, 4, 81, 51],
+	[4, 50, 22, 4, 51, 23],
+	[3, 36, 12, 8, 37, 13],
+
+	// 12
+	[2, 116, 92, 2, 117, 93],
+	[6, 58, 36, 2, 59, 37],
+	[4, 46, 20, 6, 47, 21],
+	[7, 42, 14, 4, 43, 15],
+
+	// 13
+	[4, 133, 107],
+	[8, 59, 37, 1, 60, 38],
+	[8, 44, 20, 4, 45, 21],
+	[12, 33, 11, 4, 34, 12],
+
+	// 14
+	[3, 145, 115, 1, 146, 116],
+	[4, 64, 40, 5, 65, 41],
+	[11, 36, 16, 5, 37, 17],
+	[11, 36, 12, 5, 37, 13],
+
+	// 15
+	[5, 109, 87, 1, 110, 88],
+	[5, 65, 41, 5, 66, 42],
+	[5, 54, 24, 7, 55, 25],
+	[11, 36, 12],
+
+	// 16
+	[5, 122, 98, 1, 123, 99],
+	[7, 73, 45, 3, 74, 46],
+	[15, 43, 19, 2, 44, 20],
+	[3, 45, 15, 13, 46, 16],
+
+	// 17
+	[1, 135, 107, 5, 136, 108],
+	[10, 74, 46, 1, 75, 47],
+	[1, 50, 22, 15, 51, 23],
+	[2, 42, 14, 17, 43, 15],
+
+	// 18
+	[5, 150, 120, 1, 151, 121],
+	[9, 69, 43, 4, 70, 44],
+	[17, 50, 22, 1, 51, 23],
+	[2, 42, 14, 19, 43, 15],
+
+	// 19
+	[3, 141, 113, 4, 142, 114],
+	[3, 70, 44, 11, 71, 45],
+	[17, 47, 21, 4, 48, 22],
+	[9, 39, 13, 16, 40, 14],
+
+	// 20
+	[3, 135, 107, 5, 136, 108],
+	[3, 67, 41, 13, 68, 42],
+	[15, 54, 24, 5, 55, 25],
+	[15, 43, 15, 10, 44, 16],
+
+	// 21
+	[4, 144, 116, 4, 145, 117],
+	[17, 68, 42],
+	[17, 50, 22, 6, 51, 23],
+	[19, 46, 16, 6, 47, 17],
+
+	// 22
+	[2, 139, 111, 7, 140, 112],
+	[17, 74, 46],
+	[7, 54, 24, 16, 55, 25],
+	[34, 37, 13],
+
+	// 23
+	[4, 151, 121, 5, 152, 122],
+	[4, 75, 47, 14, 76, 48],
+	[11, 54, 24, 14, 55, 25],
+	[16, 45, 15, 14, 46, 16],
+
+	// 24
+	[6, 147, 117, 4, 148, 118],
+	[6, 73, 45, 14, 74, 46],
+	[11, 54, 24, 16, 55, 25],
+	[30, 46, 16, 2, 47, 17],
+
+	// 25
+	[8, 132, 106, 4, 133, 107],
+	[8, 75, 47, 13, 76, 48],
+	[7, 54, 24, 22, 55, 25],
+	[22, 45, 15, 13, 46, 16],
+
+	// 26
+	[10, 142, 114, 2, 143, 115],
+	[19, 74, 46, 4, 75, 47],
+	[28, 50, 22, 6, 51, 23],
+	[33, 46, 16, 4, 47, 17],
+
+	// 27
+	[8, 152, 122, 4, 153, 123],
+	[22, 73, 45, 3, 74, 46],
+	[8, 53, 23, 26, 54, 24],
+	[12, 45, 15, 28, 46, 16],
+
+	// 28
+	[3, 147, 117, 10, 148, 118],
+	[3, 73, 45, 23, 74, 46],
+	[4, 54, 24, 31, 55, 25],
+	[11, 45, 15, 31, 46, 16],
+
+	// 29
+	[7, 146, 116, 7, 147, 117],
+	[21, 73, 45, 7, 74, 46],
+	[1, 53, 23, 37, 54, 24],
+	[19, 45, 15, 26, 46, 16],
+
+	// 30
+	[5, 145, 115, 10, 146, 116],
+	[19, 75, 47, 10, 76, 48],
+	[15, 54, 24, 25, 55, 25],
+	[23, 45, 15, 25, 46, 16],
+
+	// 31
+	[13, 145, 115, 3, 146, 116],
+	[2, 74, 46, 29, 75, 47],
+	[42, 54, 24, 1, 55, 25],
+	[23, 45, 15, 28, 46, 16],
+
+	// 32
+	[17, 145, 115],
+	[10, 74, 46, 23, 75, 47],
+	[10, 54, 24, 35, 55, 25],
+	[19, 45, 15, 35, 46, 16],
+
+	// 33
+	[17, 145, 115, 1, 146, 116],
+	[14, 74, 46, 21, 75, 47],
+	[29, 54, 24, 19, 55, 25],
+	[11, 45, 15, 46, 46, 16],
+
+	// 34
+	[13, 145, 115, 6, 146, 116],
+	[14, 74, 46, 23, 75, 47],
+	[44, 54, 24, 7, 55, 25],
+	[59, 46, 16, 1, 47, 17],
+
+	// 35
+	[12, 151, 121, 7, 152, 122],
+	[12, 75, 47, 26, 76, 48],
+	[39, 54, 24, 14, 55, 25],
+	[22, 45, 15, 41, 46, 16],
+
+	// 36
+	[6, 151, 121, 14, 152, 122],
+	[6, 75, 47, 34, 76, 48],
+	[46, 54, 24, 10, 55, 25],
+	[2, 45, 15, 64, 46, 16],
+
+	// 37
+	[17, 152, 122, 4, 153, 123],
+	[29, 74, 46, 14, 75, 47],
+	[49, 54, 24, 10, 55, 25],
+	[24, 45, 15, 46, 46, 16],
+
+	// 38
+	[4, 152, 122, 18, 153, 123],
+	[13, 74, 46, 32, 75, 47],
+	[48, 54, 24, 14, 55, 25],
+	[42, 45, 15, 32, 46, 16],
+
+	// 39
+	[20, 147, 117, 4, 148, 118],
+	[40, 75, 47, 7, 76, 48],
+	[43, 54, 24, 22, 55, 25],
+	[10, 45, 15, 67, 46, 16],
+
+	// 40
+	[19, 148, 118, 6, 149, 119],
+	[18, 75, 47, 31, 76, 48],
+	[34, 54, 24, 34, 55, 25],
+	[20, 45, 15, 61, 46, 16]
+];
+
+QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+	
+	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+	
+	if (rsBlock === undefined) {
+		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
+	}
+
+	var length = rsBlock.length / 3;
+	
+	var list = [];
+	
+	for (var i = 0; i < length; i++) {
+
+		var count = rsBlock[i * 3 + 0];
+		var totalCount = rsBlock[i * 3 + 1];
+		var dataCount  = rsBlock[i * 3 + 2];
+
+		for (var j = 0; j < count; j++) {
+			list.push(new QRRSBlock(totalCount, dataCount) );	
+		}
+	}
+	
+	return list;
+};
+
+QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+
+	switch(errorCorrectLevel) {
+	case QRErrorCorrectLevel.L :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+	case QRErrorCorrectLevel.M :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+	case QRErrorCorrectLevel.Q :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+	case QRErrorCorrectLevel.H :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+	default :
+		return undefined;
+	}
+};
+
+module.exports = QRRSBlock;
+
+},
+"QRUtil":function(require,module,exports){
+var QRMode = require('QRMode');
+var QRPolynomial = require('QRPolynomial');
+var QRMath = require('QRMath');
+var QRMaskPattern = require('QRMaskPattern');
+
+var QRUtil = {
+
+    PATTERN_POSITION_TABLE : [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],        
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ],
+
+    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
+    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
+    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
+
+    getBCHTypeInfo : function(data) {
+        var d = data << 10;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
+        }
+        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
+    },
+
+    getBCHTypeNumber : function(data) {
+        var d = data << 12;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
+        }
+        return (data << 12) | d;
+    },
+
+    getBCHDigit : function(data) {
+
+        var digit = 0;
+
+        while (data !== 0) {
+            digit++;
+            data >>>= 1;
+        }
+
+        return digit;
+    },
+
+    getPatternPosition : function(typeNumber) {
+        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    },
+
+    getMask : function(maskPattern, i, j) {
+        
+        switch (maskPattern) {
+            
+        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
+        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
+        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
+        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
+        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
+        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
+        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
+        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
+
+        default :
+            throw new Error("bad maskPattern:" + maskPattern);
+        }
+    },
+
+    getErrorCorrectPolynomial : function(errorCorrectLength) {
+
+        var a = new QRPolynomial([1], 0);
+
+        for (var i = 0; i < errorCorrectLength; i++) {
+            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
+        }
+
+        return a;
+    },
+
+    getLengthInBits : function(mode, type) {
+
+        if (1 <= type && type < 10) {
+
+            // 1 - 9
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 10;
+            case QRMode.MODE_ALPHA_NUM  : return 9;
+            case QRMode.MODE_8BIT_BYTE  : return 8;
+            case QRMode.MODE_KANJI      : return 8;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 27) {
+
+            // 10 - 26
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 12;
+            case QRMode.MODE_ALPHA_NUM  : return 11;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 10;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 41) {
+
+            // 27 - 40
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 14;
+            case QRMode.MODE_ALPHA_NUM  : return 13;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 12;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else {
+            throw new Error("type:" + type);
+        }
+    },
+
+    getLostPoint : function(qrCode) {
+        
+        var moduleCount = qrCode.getModuleCount();
+        var lostPoint = 0;
+        var row = 0; 
+        var col = 0;
+
+        
+        // LEVEL1
+        
+        for (row = 0; row < moduleCount; row++) {
+
+            for (col = 0; col < moduleCount; col++) {
+
+                var sameCount = 0;
+                var dark = qrCode.isDark(row, col);
+
+                for (var r = -1; r <= 1; r++) {
+
+                    if (row + r < 0 || moduleCount <= row + r) {
+                        continue;
+                    }
+
+                    for (var c = -1; c <= 1; c++) {
+
+                        if (col + c < 0 || moduleCount <= col + c) {
+                            continue;
+                        }
+
+                        if (r === 0 && c === 0) {
+                            continue;
+                        }
+
+                        if (dark === qrCode.isDark(row + r, col + c) ) {
+                            sameCount++;
+                        }
+                    }
+                }
+
+                if (sameCount > 5) {
+                    lostPoint += (3 + sameCount - 5);
+                }
+            }
+        }
+
+        // LEVEL2
+
+        for (row = 0; row < moduleCount - 1; row++) {
+            for (col = 0; col < moduleCount - 1; col++) {
+                var count = 0;
+                if (qrCode.isDark(row,     col    ) ) count++;
+                if (qrCode.isDark(row + 1, col    ) ) count++;
+                if (qrCode.isDark(row,     col + 1) ) count++;
+                if (qrCode.isDark(row + 1, col + 1) ) count++;
+                if (count === 0 || count === 4) {
+                    lostPoint += 3;
+                }
+            }
+        }
+
+        // LEVEL3
+
+        for (row = 0; row < moduleCount; row++) {
+            for (col = 0; col < moduleCount - 6; col++) {
+                if (qrCode.isDark(row, col) && 
+                        !qrCode.isDark(row, col + 1) && 
+                         qrCode.isDark(row, col + 2) && 
+                         qrCode.isDark(row, col + 3) && 
+                         qrCode.isDark(row, col + 4) && 
+                        !qrCode.isDark(row, col + 5) && 
+                         qrCode.isDark(row, col + 6) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount - 6; row++) {
+                if (qrCode.isDark(row, col) &&
+                        !qrCode.isDark(row + 1, col) &&
+                         qrCode.isDark(row + 2, col) &&
+                         qrCode.isDark(row + 3, col) &&
+                         qrCode.isDark(row + 4, col) &&
+                        !qrCode.isDark(row + 5, col) &&
+                         qrCode.isDark(row + 6, col) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        // LEVEL4
+        
+        var darkCount = 0;
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount; row++) {
+                if (qrCode.isDark(row, col) ) {
+                    darkCount++;
+                }
+            }
+        }
+        
+        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+        lostPoint += ratio * 10;
+
+        return lostPoint;       
+    }
+
+};
+
+module.exports = QRUtil;
+
+},
+"QRCodeIndex":function(require,module,exports){
+//---------------------------------------------------------------------
+// QRCode for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//   http://www.opensource.org/licenses/mit-license.php
+//
+// The word "QR Code" is registered trademark of 
+// DENSO WAVE INCORPORATED
+//   http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+// Modified to work in node for this project (and some refactoring)
+//---------------------------------------------------------------------
+
+var QR8bitByte = require('QR8bitByte');
+var QRUtil = require('QRUtil');
+var QRPolynomial = require('QRPolynomial');
+var QRRSBlock = require('QRRSBlock');
+var QRBitBuffer = require('QRBitBuffer');
+
+function QRCode(typeNumber, errorCorrectLevel) {
+	this.typeNumber = typeNumber;
+	this.errorCorrectLevel = errorCorrectLevel;
+	this.modules = null;
+	this.moduleCount = 0;
+	this.dataCache = null;
+	this.dataList = [];
+}
+
+QRCode.prototype = {
+	
+	addData : function(data) {
+		var newData = new QR8bitByte(data);
+		this.dataList.push(newData);
+		this.dataCache = null;
+	},
+	
+	isDark : function(row, col) {
+		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
+			throw new Error(row + "," + col);
+		}
+		return this.modules[row][col];
+	},
+
+	getModuleCount : function() {
+		return this.moduleCount;
+	},
+	
+	make : function() {
+		// Calculate automatically typeNumber if provided is < 1
+		if (this.typeNumber < 1 ){
+			var typeNumber = 1;
+			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
+				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+
+				var buffer = new QRBitBuffer();
+				var totalDataCount = 0;
+				for (var i = 0; i < rsBlocks.length; i++) {
+					totalDataCount += rsBlocks[i].dataCount;
+				}
+
+				for (var x = 0; x < this.dataList.length; x++) {
+					var data = this.dataList[x];
+					buffer.put(data.mode, 4);
+					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+					data.write(buffer);
+				}
+				if (buffer.getLengthInBits() <= totalDataCount * 8)
+					break;
+			}
+			this.typeNumber = typeNumber;
+		}
+		this.makeImpl(false, this.getBestMaskPattern() );
+	},
+	
+	makeImpl : function(test, maskPattern) {
+		
+		this.moduleCount = this.typeNumber * 4 + 17;
+		this.modules = new Array(this.moduleCount);
+		
+		for (var row = 0; row < this.moduleCount; row++) {
+			
+			this.modules[row] = new Array(this.moduleCount);
+			
+			for (var col = 0; col < this.moduleCount; col++) {
+				this.modules[row][col] = null;//(col + row) % 3;
+			}
+		}
+	
+		this.setupPositionProbePattern(0, 0);
+		this.setupPositionProbePattern(this.moduleCount - 7, 0);
+		this.setupPositionProbePattern(0, this.moduleCount - 7);
+		this.setupPositionAdjustPattern();
+		this.setupTimingPattern();
+		this.setupTypeInfo(test, maskPattern);
+		
+		if (this.typeNumber >= 7) {
+			this.setupTypeNumber(test);
+		}
+	
+		if (this.dataCache === null) {
+			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+		}
+	
+		this.mapData(this.dataCache, maskPattern);
+	},
+
+	setupPositionProbePattern : function(row, col)  {
+		
+		for (var r = -1; r <= 7; r++) {
+			
+			if (row + r <= -1 || this.moduleCount <= row + r) continue;
+			
+			for (var c = -1; c <= 7; c++) {
+				
+				if (col + c <= -1 || this.moduleCount <= col + c) continue;
+				
+				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
+                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
+                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+					this.modules[row + r][col + c] = true;
+				} else {
+					this.modules[row + r][col + c] = false;
+				}
+			}		
+		}		
+	},
+	
+	getBestMaskPattern : function() {
+	
+		var minLostPoint = 0;
+		var pattern = 0;
+	
+		for (var i = 0; i < 8; i++) {
+			
+			this.makeImpl(true, i);
+	
+			var lostPoint = QRUtil.getLostPoint(this);
+	
+			if (i === 0 || minLostPoint >  lostPoint) {
+				minLostPoint = lostPoint;
+				pattern = i;
+			}
+		}
+	
+		return pattern;
+	},
+	
+	createMovieClip : function(target_mc, instance_name, depth) {
+	
+		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+		var cs = 1;
+	
+		this.make();
+
+		for (var row = 0; row < this.modules.length; row++) {
+			
+			var y = row * cs;
+			
+			for (var col = 0; col < this.modules[row].length; col++) {
+	
+				var x = col * cs;
+				var dark = this.modules[row][col];
+			
+				if (dark) {
+					qr_mc.beginFill(0, 100);
+					qr_mc.moveTo(x, y);
+					qr_mc.lineTo(x + cs, y);
+					qr_mc.lineTo(x + cs, y + cs);
+					qr_mc.lineTo(x, y + cs);
+					qr_mc.endFill();
+				}
+			}
+		}
+		
+		return qr_mc;
+	},
+
+	setupTimingPattern : function() {
+		
+		for (var r = 8; r < this.moduleCount - 8; r++) {
+			if (this.modules[r][6] !== null) {
+				continue;
+			}
+			this.modules[r][6] = (r % 2 === 0);
+		}
+	
+		for (var c = 8; c < this.moduleCount - 8; c++) {
+			if (this.modules[6][c] !== null) {
+				continue;
+			}
+			this.modules[6][c] = (c % 2 === 0);
+		}
+	},
+	
+	setupPositionAdjustPattern : function() {
+	
+		var pos = QRUtil.getPatternPosition(this.typeNumber);
+		
+		for (var i = 0; i < pos.length; i++) {
+		
+			for (var j = 0; j < pos.length; j++) {
+			
+				var row = pos[i];
+				var col = pos[j];
+				
+				if (this.modules[row][col] !== null) {
+					continue;
+				}
+				
+				for (var r = -2; r <= 2; r++) {
+				
+					for (var c = -2; c <= 2; c++) {
+					
+						if (Math.abs(r) === 2 || 
+                            Math.abs(c) === 2 ||
+                            (r === 0 && c === 0) ) {
+							this.modules[row + r][col + c] = true;
+						} else {
+							this.modules[row + r][col + c] = false;
+						}
+					}
+				}
+			}
+		}
+	},
+	
+	setupTypeNumber : function(test) {
+	
+		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+        var mod;
+	
+		for (var i = 0; i < 18; i++) {
+			mod = (!test && ( (bits >> i) & 1) === 1);
+			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+		}
+	
+		for (var x = 0; x < 18; x++) {
+			mod = (!test && ( (bits >> x) & 1) === 1);
+			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
+		}
+	},
+	
+	setupTypeInfo : function(test, maskPattern) {
+	
+		var data = (this.errorCorrectLevel << 3) | maskPattern;
+		var bits = QRUtil.getBCHTypeInfo(data);
+        var mod;
+	
+		// vertical		
+		for (var v = 0; v < 15; v++) {
+	
+			mod = (!test && ( (bits >> v) & 1) === 1);
+	
+			if (v < 6) {
+				this.modules[v][8] = mod;
+			} else if (v < 8) {
+				this.modules[v + 1][8] = mod;
+			} else {
+				this.modules[this.moduleCount - 15 + v][8] = mod;
+			}
+		}
+	
+		// horizontal
+		for (var h = 0; h < 15; h++) {
+	
+			mod = (!test && ( (bits >> h) & 1) === 1);
+			
+			if (h < 8) {
+				this.modules[8][this.moduleCount - h - 1] = mod;
+			} else if (h < 9) {
+				this.modules[8][15 - h - 1 + 1] = mod;
+			} else {
+				this.modules[8][15 - h - 1] = mod;
+			}
+		}
+	
+		// fixed module
+		this.modules[this.moduleCount - 8][8] = (!test);
+	
+	},
+	
+	mapData : function(data, maskPattern) {
+		
+		var inc = -1;
+		var row = this.moduleCount - 1;
+		var bitIndex = 7;
+		var byteIndex = 0;
+		
+		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+	
+			if (col === 6) col--;
+	
+			while (true) {
+	
+				for (var c = 0; c < 2; c++) {
+					
+					if (this.modules[row][col - c] === null) {
+						
+						var dark = false;
+	
+						if (byteIndex < data.length) {
+							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
+						}
+	
+						var mask = QRUtil.getMask(maskPattern, row, col - c);
+	
+						if (mask) {
+							dark = !dark;
+						}
+						
+						this.modules[row][col - c] = dark;
+						bitIndex--;
+	
+						if (bitIndex === -1) {
+							byteIndex++;
+							bitIndex = 7;
+						}
+					}
+				}
+								
+				row += inc;
+	
+				if (row < 0 || this.moduleCount <= row) {
+					row -= inc;
+					inc = -inc;
+					break;
+				}
+			}
+		}
+		
+	}
+
+};
+
+QRCode.PAD0 = 0xEC;
+QRCode.PAD1 = 0x11;
+
+QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+	
+	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+	
+	var buffer = new QRBitBuffer();
+	
+	for (var i = 0; i < dataList.length; i++) {
+		var data = dataList[i];
+		buffer.put(data.mode, 4);
+		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+		data.write(buffer);
+	}
+
+	// calc num max data.
+	var totalDataCount = 0;
+	for (var x = 0; x < rsBlocks.length; x++) {
+		totalDataCount += rsBlocks[x].dataCount;
+	}
+
+	if (buffer.getLengthInBits() > totalDataCount * 8) {
+		throw new Error("code length overflow. (" + 
+            buffer.getLengthInBits() + 
+            ">" +  
+            totalDataCount * 8 + 
+            ")");
+	}
+
+	// end code
+	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+		buffer.put(0, 4);
+	}
+
+	// padding
+	while (buffer.getLengthInBits() % 8 !== 0) {
+		buffer.putBit(false);
+	}
+
+	// padding
+	while (true) {
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD0, 8);
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD1, 8);
+	}
+
+	return QRCode.createBytes(buffer, rsBlocks);
+};
+
+QRCode.createBytes = function(buffer, rsBlocks) {
+
+	var offset = 0;
+	
+	var maxDcCount = 0;
+	var maxEcCount = 0;
+	
+	var dcdata = new Array(rsBlocks.length);
+	var ecdata = new Array(rsBlocks.length);
+	
+	for (var r = 0; r < rsBlocks.length; r++) {
+
+		var dcCount = rsBlocks[r].dataCount;
+		var ecCount = rsBlocks[r].totalCount - dcCount;
+
+		maxDcCount = Math.max(maxDcCount, dcCount);
+		maxEcCount = Math.max(maxEcCount, ecCount);
+		
+		dcdata[r] = new Array(dcCount);
+		
+		for (var i = 0; i < dcdata[r].length; i++) {
+			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+		}
+		offset += dcCount;
+		
+		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+		var modPoly = rawPoly.mod(rsPoly);
+		ecdata[r] = new Array(rsPoly.getLength() - 1);
+		for (var x = 0; x < ecdata[r].length; x++) {
+            var modIndex = x + modPoly.getLength() - ecdata[r].length;
+			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
+		}
+
+	}
+	
+	var totalCodeCount = 0;
+	for (var y = 0; y < rsBlocks.length; y++) {
+		totalCodeCount += rsBlocks[y].totalCount;
+	}
+
+	var data = new Array(totalCodeCount);
+	var index = 0;
+
+	for (var z = 0; z < maxDcCount; z++) {
+		for (var s = 0; s < rsBlocks.length; s++) {
+			if (z < dcdata[s].length) {
+				data[index++] = dcdata[s][z];
+			}
+		}
+	}
+
+	for (var xx = 0; xx < maxEcCount; xx++) {
+		for (var t = 0; t < rsBlocks.length; t++) {
+			if (xx < ecdata[t].length) {
+				data[index++] = ecdata[t][xx];
+			}
+		}
+	}
+
+	return data;
+
+};
+
+module.exports = QRCode;
+
+}};
+  var cached={};
+  function require(name){
+    if(name==='QRCodeIndex')name='QRCodeIndex';
+    if(!modules[name])throw Error('QR component unavailable: '+name);
+    if(cached[name])return cached[name].exports;
+    var mod={exports:{}};cached[name]=mod;modules[name](require,mod,mod.exports);return mod.exports;
+  }
+  window.EverQRCreateMatrix=function(url){
+    var QRCode=require('QRCodeIndex'),EC=require('QRErrorCorrectLevel');
+    var qr=new QRCode(-1,EC.M);qr.addData(url);qr.make();return qr;
+  };
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const STORE='everqr-lite-v2';
+  const DEFAULT={siteBase:'',siteLocked:false,links:{},trash:{},deletedIds:{},github:{owner:'',repo:'',branch:'main',folder:''},githubSites:{}};
+  const ROUTER_B64='PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0idXRmLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MSI+CiAgPG1ldGEgbmFtZT0icm9ib3RzIiBjb250ZW50PSJub2luZGV4LG5vZm9sbG93Ij4KICA8bWV0YSBuYW1lPSJyZWZlcnJlciIgY29udGVudD0ibm8tcmVmZXJyZXIiPgogIDxtZXRhIGh0dHAtZXF1aXY9IkNhY2hlLUNvbnRyb2wiIGNvbnRlbnQ9Im5vLWNhY2hlLCBuby1zdG9yZSwgbXVzdC1yZXZhbGlkYXRlIj4KICA8dGl0bGU+VGFraW5nIHlvdSB0byB5b3VyIGRlc3RpbmF0aW9uLi4uPC90aXRsZT4KICA8c3R5bGU+CiAgICA6cm9vdHtjb2xvci1zY2hlbWU6ZGFya30qe2JveC1zaXppbmc6Ym9yZGVyLWJveH0KICAgIGJvZHl7Zm9udDoxNXB4LzEuNiBzeXN0ZW0tdWksLWFwcGxlLXN5c3RlbSxTZWdvZSBVSSxzYW5zLXNlcmlmO21hcmdpbjowO2JhY2tncm91bmQ6IzA3MTIyMjtjb2xvcjojZWRmOGZmO2Rpc3BsYXk6Z3JpZDtwbGFjZS1pdGVtczpjZW50ZXI7bWluLWhlaWdodDoxMDB2aDtwYWRkaW5nOjIycHh9CiAgICAuY2FyZHt3aWR0aDptaW4oMTAwJSw0NDBweCk7dGV4dC1hbGlnbjpjZW50ZXI7cGFkZGluZzozOHB4IDMwcHg7YmFja2dyb3VuZDojMGYyMDM2O2JvcmRlcjoxcHggc29saWQgIzI5NDU2NDtib3JkZXItcmFkaXVzOjIycHg7Ym94LXNoYWRvdzowIDE2cHggNjBweCAjMDAwNH0KICAgIC5icmFuZHtmb250LXdlaWdodDo5MDA7bGV0dGVyLXNwYWNpbmc6LS44cHg7Zm9udC1zaXplOjI2cHh9LmJyYW5kIHNwYW57Y29sb3I6IzQ3ZGJjN30KICAgIGgxe2ZvbnQtc2l6ZToyMnB4O21hcmdpbjoyMHB4IDAgOHB4O2xldHRlci1zcGFjaW5nOi0uNnB4fXB7Y29sb3I6I2FiYzJkNDttYXJnaW46MDtmb250LXNpemU6MTRweH0KICAgIC5zcGlubmVye21hcmdpbjoyNXB4IGF1dG8gMTBweDt3aWR0aDozOHB4O2hlaWdodDozOHB4O2JvcmRlcjo0cHggc29saWQgIzMwNGQ2Njtib3JkZXItdG9wLWNvbG9yOiM0OGUyYzc7Ym9yZGVyLXJhZGl1czo1MCU7YW5pbWF0aW9uOnNwaW4gLjhzIGxpbmVhciBpbmZpbml0ZX0KICAgIGF7Y29sb3I6IzU1ZTVkMjtvdmVyZmxvdy13cmFwOmFueXdoZXJlfUBrZXlmcmFtZXMgc3Bpbnt0b3t0cmFuc2Zvcm06cm90YXRlKDM2MGRlZyl9fQogICAgLmVycm9yIC5zcGlubmVye2Rpc3BsYXk6bm9uZX0KICA8L3N0eWxlPgo8L2hlYWQ+Cjxib2R5PgogIDxtYWluIGNsYXNzPSJjYXJkIiBpZD0iY2FyZCI+CiAgICA8ZGl2IGNsYXNzPSJicmFuZCI+RXZlcjxzcGFuPlFSPC9zcGFuPjwvZGl2PgogICAgPGRpdiBjbGFzcz0ic3Bpbm5lciIgYXJpYS1oaWRkZW49InRydWUiPjwvZGl2PgogICAgPGgxIGlkPSJoZWFkaW5nIj5PcGVuaW5nIHlvdXIgbGluazwvaDE+CiAgICA8cCBpZD0ibWVzc2FnZSIgYXJpYS1saXZlPSJwb2xpdGUiPkNoZWNraW5nIHRoZSBsYXRlc3QgZGVzdGluYXRpb24uLi48L3A+CiAgPC9tYWluPgogIDxzY3JpcHQ+CiAgICAoYXN5bmMgZnVuY3Rpb24gKCkgewogICAgICAndXNlIHN0cmljdCc7CiAgICAgIGNvbnN0IGNhcmQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2FyZCcpOwogICAgICBjb25zdCBoZWFkaW5nID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2hlYWRpbmcnKTsKICAgICAgY29uc3QgbWVzc2FnZSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtZXNzYWdlJyk7CiAgICAgIGNvbnN0IGlkID0gbmV3IFVSTFNlYXJjaFBhcmFtcyhsb2NhdGlvbi5zZWFyY2gpLmdldCgnaWQnKTsKICAgICAgZnVuY3Rpb24gZmFpbCh0ZXh0KSB7CiAgICAgICAgY2FyZC5jbGFzc0xpc3QuYWRkKCdlcnJvcicpOwogICAgICAgIGhlYWRpbmcudGV4dENvbnRlbnQgPSAnVGhpcyBRUiBsaW5rIGlzIHVuYXZhaWxhYmxlJzsKICAgICAgICBtZXNzYWdlLnRleHRDb250ZW50ID0gdGV4dDsKICAgICAgfQogICAgICBpZiAoIWlkIHx8ICEvXlthLXpBLVowLTlfLV17NCwzMn0kLy50ZXN0KGlkKSkgewogICAgICAgIGZhaWwoJ1RoZSBRUiBjb2RlIGRvZXMgbm90IGhhdmUgYSB2YWxpZCBsaW5rIElELicpOwogICAgICAgIHJldHVybjsKICAgICAgfQogICAgICB0cnkgewogICAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2goJ2xpbmtzLmpzb24/dj0nICsgRGF0ZS5ub3coKSwge2NhY2hlOiAnbm8tc3RvcmUnfSk7CiAgICAgICAgaWYgKCFyZXNwb25zZS5vaykgdGhyb3cgbmV3IEVycm9yKCdMaW5rIGRpcmVjdG9yeSBjb3VsZCBub3QgYmUgbG9hZGVkLicpOwogICAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXNwb25zZS5qc29uKCk7CiAgICAgICAgY29uc3QgaXRlbSA9IGRhdGEgJiYgZGF0YS5saW5rcyAmJiBkYXRhLmxpbmtzW2lkXTsKICAgICAgICBpZiAoIWl0ZW0gfHwgdHlwZW9mIGl0ZW0udXJsICE9PSAnc3RyaW5nJykgewogICAgICAgICAgZmFpbCgnVGhlIGRlc3RpbmF0aW9uIGhhcyBub3QgYmVlbiBwdWJsaXNoZWQsIG9yIHRoaXMgbGluayBoYXMgYmVlbiByZW1vdmVkLicpOwogICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KICAgICAgICBpZiAoaXRlbS5kaXNhYmxlZCA9PT0gdHJ1ZSkgewogICAgICAgICAgZmFpbCgnVGhpcyBRUiBjb2RlIGhhcyBiZWVuIHBhdXNlZCBieSBpdHMgb3duZXIuIFBsZWFzZSBjaGVjayBiYWNrIGxhdGVyLicpOwogICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KICAgICAgICBjb25zdCB1cmwgPSBuZXcgVVJMKGl0ZW0udXJsKTsKICAgICAgICBpZiAoIVsnaHR0cDonLCAnaHR0cHM6J10uaW5jbHVkZXModXJsLnByb3RvY29sKSkgewogICAgICAgICAgZmFpbCgnVGhpcyBRUiBkZXN0aW5hdGlvbiBpcyBpbnZhbGlkLicpOwogICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KICAgICAgICB3aW5kb3cubG9jYXRpb24ucmVwbGFjZSh1cmwuaHJlZik7CiAgICAgIH0gY2F0Y2ggKGVycm9yKSB7CiAgICAgICAgZmFpbCgnV2UgY291bGQgbm90IHJldHJpZXZlIHRoZSBkZXN0aW5hdGlvbi4gUGxlYXNlIHRyeSBhZ2FpbiBzaG9ydGx5LicpOwogICAgICB9CiAgICB9KSgpOwogIDwvc2NyaXB0Pgo8L2JvZHk+CjwvaHRtbD4K';
+  let state=loadState();
+  let currentId='';
+  let currentQR=null;
+  let selectedIds=new Set();
+  let flashTimer=0;
+
+  function loadState(){
+    try{
+      const raw=JSON.parse(localStorage.getItem(STORE)||'null');
+      if(raw&&typeof raw==='object'&&raw.links&&typeof raw.links==='object'){
+        const trash=raw.trash&&typeof raw.trash==='object'?raw.trash:{};
+        const deleted=raw.deletedIds&&typeof raw.deletedIds==='object'?raw.deletedIds:{};
+        const siteBase=raw.siteBase||'';
+        const githubSites=(raw.githubSites&&typeof raw.githubSites==='object')?raw.githubSites:{};
+        if(siteBase&&!githubSites[siteBase])githubSites[siteBase]={...DEFAULT.github,...(raw.github||{})};
+        // Legacy v3 deletions were only timestamps; remember their original folder now.
+        const deletedIds={};
+        for(const [id,entry] of Object.entries(deleted)){
+          const oldSite=trash[id]?recordBase(trash[id]):siteBase;
+          deletedIds[id]=entry&&typeof entry==='object'&&entry.siteBase?entry:{at:typeof entry==='string'?entry:today(),siteBase:oldSite};
+        }
+        return {siteBase,siteLocked:false,links:raw.links,trash,deletedIds,github:{...DEFAULT.github,...(githubSites[siteBase]||raw.github||{})},githubSites};
+      }
+    }catch(e){}
+    return JSON.parse(JSON.stringify(DEFAULT));
+  }
+  function saveState(){
+    try{
+      if(!state.githubSites)state.githubSites={};
+      if(state.siteBase)state.githubSites[state.siteBase]={...DEFAULT.github,...state.github};
+      localStorage.setItem(STORE,JSON.stringify(state));
+    }catch(e){notify('Browser storage is unavailable. Export a backup before closing this page.','warning');}
+  }
+  function notify(message,type='info'){
+    const host=$('globalNotice');host.textContent=message;host.className='notice '+(type==='info'?'':type);host.hidden=false;
+    clearTimeout(flashTimer);if(type==='success')flashTimer=setTimeout(()=>host.hidden=true,9000);
+  }
+  function parseURL(value,label){
+    let txt=String(value||'').trim();
+    if(txt&&!/^[a-z][a-z0-9+.-]*:\/\//i.test(txt))txt='https://'+txt;
+    let parsed;try{parsed=new URL(txt)}catch(e){throw Error('Enter a valid '+label+' URL. Example: https://example.com');}
+    if(!['https:','http:'].includes(parsed.protocol)||!parsed.hostname||parsed.username||parsed.password)throw Error('Use a normal http:// or https:// '+label+' URL without login credentials.');
+    if(txt.length>1700)throw Error(label+' URL is too long for a reliable QR code.');
+    return parsed;
+  }
+  function normalizeSite(value){
+    const u=parseURL(value,'permanent website');
+    if(u.search||u.hash)throw Error('The permanent website must be a folder URL, without ? or #.');
+    if(/\.html?$/i.test(u.pathname))throw Error('Enter the website folder, not the index.html file.');
+    if(!u.pathname.endsWith('/'))u.pathname+='/';
+    return u.href;
+  }
+  function normalizeDestination(value){const u=parseURL(value,'destination');return u.href;}
+  function makeId(){
+    const chars='abcdefghjkmnpqrstuvwxyz23456789';
+    let txt='';const bytes=new Uint8Array(9);
+    if(window.crypto&&crypto.getRandomValues)crypto.getRandomValues(bytes);
+    else for(let i=0;i<bytes.length;i++)bytes[i]=Math.floor(Math.random()*256);
+    for(const n of bytes)txt+=chars[n%chars.length];return txt;
+  }
+  function qrURL(id){return new URL('go.html?id='+encodeURIComponent(id),state.siteBase).href;}
+  function recordBase(rec){
+    try{return new URL('.',new URL(rec.qrUrl).href).href;}catch(e){return '';}
+  }
+  function baseRecords(base=state.siteBase){return sortedRecords().filter(rec=>recordBase(rec)===base);}
+  function deletedBase(id){
+    const entry=state.deletedIds[id];
+    return (entry&&typeof entry==='object'&&entry.siteBase)||
+           (state.trash[id]&&recordBase(state.trash[id]))||state.siteBase;
+  }
+  function baseDeletions(base=state.siteBase){return Object.keys(state.deletedIds).filter(id=>deletedBase(id)===base);}
+  function pendingForBase(base=state.siteBase){return baseRecords(base).filter(r=>r.pending).length+baseDeletions(base).length;}
+  function knownBases(){
+    return [...new Set([state.siteBase,...Object.values(state.links).map(recordBase),...Object.values(state.trash).map(recordBase),...Object.keys(state.deletedIds).map(deletedBase)].filter(Boolean))].sort();
+  }
+  function switchSite(base){
+    const previous=state.siteBase;
+    if(previous===base){uiSync();return;}
+    // Store this folder's settings, but never persist the token.
+    if(previous){state.githubSites[previous]={owner:$('ghOwner').value.trim(),repo:$('ghRepo').value.trim(),branch:$('ghBranch').value.trim()||'main',folder:$('ghFolder').value.trim()};}
+    state.siteBase=base;
+    state.github={...DEFAULT.github,...(state.githubSites[base]||{})};
+    $('ghToken').value='';
+    saveState();uiSync();
+    $('setupPanel').open=false;
+    notify('Website folder switched. New QR codes use the new folder. Previously created QR codes keep their original addresses.','success');
+  }
+  function sortedRecords(){return Object.values(state.links).filter(r=>r&&r.id&&r.qrUrl).sort((a,b)=>(b.updated||'').localeCompare(a.updated||''));}
+  function queuedCount(){return sortedRecords().filter(r=>r.pending).length+Object.keys(state.deletedIds).length;}
+  function recordStatus(r){return r.pending?'Needs publishing':(r.paused?'Paused':(r.published?'Published':'Not published'));}
+  function today(){return new Date().toISOString();}
+  function friendlyDate(s){const d=new Date(s);return isNaN(d.getTime())?'—':d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}
+  function viewCollection(){
+    const filter=$('qrFilter').value,query=$('qrSearch').value.toLowerCase().trim();
+    let arr=filter==='trash'?Object.values(state.trash):sortedRecords().filter(r=>filter==='all'||(filter==='active'&&!r.paused)||(filter==='paused'&&r.paused)||(filter==='pending'&&r.pending));
+    arr=arr.filter(r=>r&&[r.title,r.url,r.id,r.qrUrl].some(v=>String(v||'').toLowerCase().includes(query)));
+    const sort=$('qrSort').value;
+    if(sort==='name')arr.sort((a,b)=>String(a.title).localeCompare(String(b.title)));
+    else if(sort==='oldest')arr.sort((a,b)=>String(a.created).localeCompare(String(b.created)));
+    else if(sort==='created')arr.sort((a,b)=>String(b.created).localeCompare(String(a.created)));
+    else arr.sort((a,b)=>String(b.deletedAt||b.updated).localeCompare(String(a.deletedAt||a.updated)));
+    return arr;
+  }
+
+  function uiSync(){
+    $('siteBase').value=state.siteBase||'';
+    $('siteStatus').textContent=state.siteBase?'Address saved':'Not set';
+    $('siteStatus').classList.toggle('live',!!state.siteBase);
+    $('siteBase').readOnly=false;$('saveSite').disabled=false;
+    $('sitePreview').textContent=state.siteBase?'New QR address example: '+new URL('go.html?id=yourcode',state.siteBase).href:'Set an address before generating your first editable QR.';
+    const folderSelect=$('knownSites'),bases=knownBases(),oldSelection=folderSelect.value;
+    folderSelect.replaceChildren();
+    for(const base of bases){const option=document.createElement('option');option.value=base;option.textContent=base+(base===state.siteBase?' (current)':'');folderSelect.append(option);}
+    folderSelect.value=bases.includes(oldSelection)?oldSelection:(state.siteBase||bases[0]||'');
+    $('sitePicker').hidden=bases.length===0;
+    $('ghOwner').value=state.github.owner||'';$('ghRepo').value=state.github.repo||'';$('ghBranch').value=state.github.branch||'main';$('ghFolder').value=state.github.folder||'';
+    const count=baseRecords().length,queue=pendingForBase();
+    $('publishFolder').replaceChildren();
+    const top=document.createElement('strong');top.textContent='Publishing folder: '+(state.siteBase||'(not set)');
+    const bottom=document.createElement('div');bottom.className='small muted';bottom.textContent=count+' QR code(s) here · '+queue+' unpublished change(s) here. Other folders remain untouched.';
+    $('publishFolder').append(top,bottom);
+    updateRecordSiteWarning();
+    const arr=sortedRecords();
+    $('qrCount').textContent='('+arr.length+')';
+    $('statAll').textContent=arr.length;
+    $('statActive').textContent=arr.filter(r=>!r.paused).length;
+    $('statPaused').textContent=arr.filter(r=>r.paused).length;
+    $('statPending').textContent=queuedCount();
+    populateSelect();renderLibrary();
+  }
+  function saveSite(){
+    try{
+      const base=normalizeSite($('siteBase').value);
+      if(base!==state.siteBase){switchSite(base);}else{saveState();uiSync();$('setupPanel').open=false;notify('Website folder address saved.','success');}
+      return true;
+    }catch(e){notify(e.message,'error');$('setupPanel').open=true;return false;}
+  }
+  function requireSite(){if(state.siteBase)return true;notify('Set your QR website folder address first.','warning');$('setupPanel').open=true;$('siteBase').focus();return false;}
+  function updateRecordSiteWarning(){
+    const rec=state.links[$('selectExisting').value||currentId];
+    const folder=rec?recordBase(rec):'';
+    const mismatch=!!(folder&&state.siteBase&&folder!==state.siteBase&&!$('editForm').hidden);
+    $('editSiteNotice').hidden=!mismatch;
+    $('editSiteNoticeText').textContent=mismatch?'This QR belongs to '+folder+' — not the current publishing folder ('+state.siteBase+'). You can edit its destination now, but switch to the original folder before publishing.':'';
+  }
+  function switchToRecordSite(){
+    const rec=state.links[$('selectExisting').value||currentId];
+    if(!rec)return;
+    $('siteBase').value=recordBase(rec);saveSite();
+  }
+  function switchTab(tab){
+    const isCreate=tab==='create';$('tabCreate').setAttribute('aria-selected',String(isCreate));$('tabEdit').setAttribute('aria-selected',String(!isCreate));$('createForm').hidden=!isCreate;$('editForm').hidden=isCreate;
+    if(!isCreate)populateSelect();updateRecordSiteWarning();
+  }
+  function createRecord(){
+    if(!requireSite())return null;
+    let destination;try{destination=normalizeDestination($('createUrl').value);}catch(e){notify(e.message,'error');$('createUrl').focus();return null;}
+    let id=makeId();while(state.links[id]||state.trash[id]||state.deletedIds[id])id=makeId();
+    const now=new Date().toISOString();
+    const rec={id,title:$('createName').value.trim()||'Untitled QR',url:destination,qrUrl:qrURL(id),created:now,updated:now,pending:true,published:false};
+    state.links[id]=rec;saveState();currentId=id;uiSync();displayQR(rec);$('createName').value='';$('createUrl').value='';notify('QR created! Download the QR image, then publish your links.json so anyone can scan it.','success');return rec;
+  }
+  function updateRecord(){
+    const id=$('selectExisting').value;
+    if(!id||!state.links[id]){notify('Choose a QR code to update first.','warning');return null;}
+    let dest;try{dest=normalizeDestination($('editUrl').value);}catch(e){notify(e.message,'error');$('editUrl').focus();return null;}
+    const rec=state.links[id];
+    if(dest!==rec.url){rec.url=dest;rec.updated=new Date().toISOString();rec.pending=true;saveState();uiSync();}
+    currentId=id;displayQR(rec);notify('Destination saved in this browser. Publish links.json or use GitHub to make the change live. The QR has NOT changed.','success');return rec;
+  }
+  function selectRecord(id,edit){
+    const rec=state.links[id];if(!rec)return;
+    currentId=id;$('selectExisting').value=id;$('editUrl').value=rec.url;displayQR(rec);
+    updateRecordSiteWarning();
+    if(edit){switchTab('edit');window.scrollTo({top:Math.max(0,$('workspace').getBoundingClientRect().top+window.scrollY-20),behavior:'smooth'});}
+  }
+  function populateSelect(){
+    const sel=$('selectExisting');const before=currentId||sel.value;sel.replaceChildren();
+    const empty=document.createElement('option');empty.value='';empty.textContent='Select an existing QR...';sel.append(empty);
+    for(const r of sortedRecords()){
+      const opt=document.createElement('option');opt.value=r.id;opt.textContent=r.title+' · '+r.id;sel.append(opt);
+    }
+    if(before&&state.links[before])sel.value=before;
+    if(sel.value&&state.links[sel.value])$('editUrl').value=state.links[sel.value].url;
+    updateRecordSiteWarning();
+  }
+  function actionButton(text,className,handle){
+    const b=document.createElement('button');b.type='button';b.className='btn btn-sm '+className;b.textContent=text;b.addEventListener('click',handle);return b;
+  }
+  function addMoreAction(container,text,handler,danger=false){
+    const button=document.createElement('button');button.type='button';button.textContent=text;
+    if(danger)button.className='danger';
+    button.addEventListener('click',()=>{handler();const details=container.closest('details');if(details)details.open=false;});
+    container.append(button);
+  }
+  function renderLibrary(){
+    const host=$('linkList');host.replaceChildren();const arr=viewCollection(),all=sortedRecords(),trashed=$('qrFilter').value==='trash';
+    const visibleSet=new Set(arr.map(r=>r.id));
+    for(const id of [...selectedIds])if(!state.links[id])selectedIds.delete(id);
+    $('selectAllQR').disabled=trashed||!arr.length;
+    $('selectAllQR').checked=!trashed&&arr.length>0&&arr.every(r=>selectedIds.has(r.id));
+    $('selectAllQR').indeterminate=!trashed&&arr.some(r=>selectedIds.has(r.id))&&!arr.every(r=>selectedIds.has(r.id));
+    $('selectedCount').textContent=selectedIds.size+' selected';
+    $('deleteSelected').disabled=!selectedIds.size;
+    const pending=queuedCount();
+    $('managerPendingNotice').hidden=!pending;
+    $('managerPendingNotice').textContent=pending+' unpublished change(s) across your website folders. Current folder: '+pendingForBase()+' change(s). Select the correct folder above to publish the right links.json; changes are not automatically public.';
+    $('publishChangeShortcut').textContent=pending?'Publish '+pending+' change(s)':'Publish changes';
+    if(!arr.length){const empty=document.createElement('div');empty.className='empty-list';empty.textContent=trashed?'Trash is empty.':(all.length||Object.keys(state.trash).length?'No QR codes match your search or filter.':'No QR codes yet. Create your first QR above.');host.append(empty);return;}
+    arr.forEach(rec=>{
+      const card=document.createElement('article');card.className='link-card'+(currentId===rec.id&&!trashed?' is-current':'')+(trashed?' is-trashed':'');
+      const check=document.createElement('input');check.className='row-select';check.type='checkbox';check.checked=selectedIds.has(rec.id);check.disabled=trashed;check.setAttribute('aria-label','Select '+rec.title);check.addEventListener('change',()=>{if(check.checked)selectedIds.add(rec.id);else selectedIds.delete(rec.id);renderLibrary();});
+      if(trashed){const icon=document.createElement('span');icon.textContent='♲';icon.setAttribute('aria-hidden','true');icon.style.color='#ffb7b7';card.append(icon);}else card.append(check);
+      const summary=document.createElement('div');summary.className='link-data';
+      const header=document.createElement('div');header.className='link-card-header';
+      const heading=document.createElement('div');heading.className='link-card-name';
+      const name=document.createElement('strong');name.textContent=rec.title;
+      const badge=document.createElement('span');badge.className='mini-badge '+(trashed?'deleted':rec.paused&&!rec.pending?'paused':(!rec.pending&&rec.published?'done':''));badge.textContent=trashed?'In trash':recordStatus(rec);heading.append(name,badge);
+      const idSpan=document.createElement('span');idSpan.className='link-meta';idSpan.textContent='ID: '+rec.id;header.append(heading,idSpan);
+      const detail=document.createElement('div');detail.className='link-details';
+      const target=document.createElement('div');target.className='target-line';target.textContent='Destination: '+rec.url;
+      const permanent=document.createElement('div');permanent.className='qrlink-line';permanent.textContent=rec.qrUrl;
+      const meta=document.createElement('div');meta.className='link-meta';meta.textContent=trashed?'Deleted '+friendlyDate(rec.deletedAt):'Created '+friendlyDate(rec.created)+' · Updated '+friendlyDate(rec.updated);
+      const folder=document.createElement('div');folder.className='folder-label';folder.textContent='Website folder: '+recordBase(rec)+(recordBase(rec)===state.siteBase?' · Current':'');
+      detail.append(target,permanent,folder,meta);summary.append(header,detail);
+      const actions=document.createElement('div');actions.className='link-acts';
+      if(trashed){
+        actions.append(actionButton('↶ Restore','btn-secondary',()=>restoreRecord(rec.id)),actionButton('Delete permanently','btn-danger',()=>emptyTrashRecord(rec.id)));
+      }else{
+        actions.append(actionButton('View QR','btn-ghost',()=>{selectRecord(rec.id,false);$('workspace').scrollIntoView({behavior:'smooth',block:'start'});}),
+                       actionButton('Edit URL','btn-secondary',()=>selectRecord(rec.id,true)),
+                       actionButton('↓ PNG','btn-ghost',()=>{selectRecord(rec.id,false);pngDownload();}));
+        const more=document.createElement('details');more.className='more-actions';
+        const trigger=document.createElement('summary');trigger.textContent='More actions ▾';trigger.setAttribute('aria-label','More actions for '+rec.title);
+        const menu=document.createElement('div');menu.className='more-actions-menu';
+        addMoreAction(menu,'Rename',()=>renameRecord(rec.id));
+        addMoreAction(menu,'Copy QR link',()=>copyText(rec.qrUrl));
+        addMoreAction(menu,'Duplicate to current folder',()=>duplicateRecord(rec.id));
+        addMoreAction(menu,rec.paused?'Resume QR':'Pause QR',()=>togglePause(rec.id));
+        addMoreAction(menu,'Move to trash',()=>trashRecords([rec.id]),true);
+        more.append(trigger,menu);actions.append(more);
+      }
+      summary.append(actions);card.append(summary);host.append(card);
+    });
+  }
+  function recordChanged(rec,message){
+    rec.updated=today();rec.pending=true;
+    saveState();uiSync();if(currentId===rec.id)displayQR(rec);
+    notify(message+' Publish this change in the QR folder: '+recordBase(rec),'success');
+  }
+  function renameRecord(id){
+    const rec=state.links[id];if(!rec)return;
+    const answer=prompt('New name for this QR code:',rec.title);
+    if(answer===null)return;
+    const name=answer.trim().slice(0,90);
+    if(!name){notify('QR name cannot be blank.','warning');return;}
+    if(name===rec.title)return;
+    rec.title=name;recordChanged(rec,'QR renamed. The QR image did not change.');
+  }
+  function togglePause(id){
+    const rec=state.links[id];if(!rec)return;
+    rec.paused=!rec.paused;
+    recordChanged(rec,rec.paused?'QR pause saved locally. Scans will stop redirecting after publication.':'QR resume saved locally.');
+  }
+  function duplicateRecord(id){
+    const old=state.links[id];if(!old)return;
+    let newId=makeId();while(state.links[newId]||state.trash[newId]||state.deletedIds[newId])newId=makeId();
+    const timestamp=today();
+    const rec={...old,id:newId,title:(old.title+' (copy)').slice(0,90),qrUrl:qrURL(newId),created:timestamp,updated:timestamp,pending:true,published:false,publishMethod:'',paused:false};
+    state.links[newId]=rec;saveState();currentId=newId;uiSync();selectRecord(newId,false);
+    notify('Duplicated into a NEW QR code at '+state.siteBase+'. Original QR stays unchanged. Publish the new one before sharing.','success');
+  }
+  function trashRecords(ids){
+    const records=ids.map(id=>state.links[id]).filter(Boolean);if(!records.length)return;
+    const message=records.length===1?'Move "'+records[0].title+'" to Trash? After publishing, the already-printed QR code will stop redirecting. Restore is available in Trash.':'Move '+records.length+' QR codes to Trash? After publishing, their already-printed QR codes will stop redirecting. You can restore them later.';
+    if(!confirm(message))return;
+    for(const rec of records){state.trash[rec.id]={...rec,deletedAt:today()};state.deletedIds[rec.id]={at:today(),siteBase:recordBase(rec)};delete state.links[rec.id];selectedIds.delete(rec.id);}
+    if(!state.links[currentId]){currentId='';const remaining=sortedRecords();if(remaining.length){currentId=remaining[0].id;}else clearPreview();}
+    saveState();uiSync();if(currentId&&state.links[currentId])selectRecord(currentId,false);
+    notify(records.length+' QR code(s) moved to Trash. Publish the change to disable the public QR redirects.','warning');
+  }
+  function restoreRecord(id){
+    const rec=state.trash[id];if(!rec)return;
+    delete state.trash[id];delete state.deletedIds[id];
+    state.links[id]={...rec,pending:true,updated:today()};delete state.links[id].deletedAt;
+    saveState();currentId=id;uiSync();selectRecord(id,false);
+    notify('QR restored with its ORIGINAL permanent QR link. Republish to restore the public redirect.','success');
+  }
+  function emptyTrashRecord(id){
+    if(!state.trash[id])return;
+    if(!confirm('Permanently remove this QR from Trash? You will lose the recovery copy. Its published redirect will still need to be removed through Publish changes.'))return;
+    delete state.trash[id];saveState();uiSync();notify('Removed from Trash. Publish changes to remove its public redirect, if not already published.','warning');
+  }
+  function copyText(text){
+    if(navigator.clipboard?.writeText)navigator.clipboard.writeText(text).then(()=>notify('Permanent QR link copied.','success')).catch(()=>prompt('Copy this QR link:',text));
+    else prompt('Copy this QR link:',text);
+  }
+  function qrSVG(qr){
+    const m=qr.getModuleCount(), size=m+8;let paths=[];
+    for(let y=0;y<m;y++)for(let x=0;x<m;x++)if(qr.isDark(y,x))paths.push('M'+(x+4)+' '+(y+4)+'h1v1h-1z');
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+size+' '+size+'" role="img" aria-label="Scannable QR code" shape-rendering="crispEdges"><rect width="'+size+'" height="'+size+'" fill="#fff"/><path fill="#0b1d2c" d="'+paths.join('')+'"/></svg>';
+  }
+  function clearPreview(){currentQR=null;$('qrFrame').innerHTML='<div class="qr-empty" aria-hidden="true">▦</div><p class="qr-empty-text">Your QR will appear here</p>';$('qrLabel').textContent='Ready when you are';$('qrStatus').textContent='No QR selected';$('downloadPNG').disabled=true;$('downloadSVG').disabled=true;$('permanentBlock').hidden=true;}
+  function displayQR(rec){
+    try{
+      const qr=EverQRCreateMatrix(rec.qrUrl);currentQR=qr;
+      $('qrFrame').innerHTML=qrSVG(qr);$('qrLabel').textContent=rec.title;
+      $('qrStatus').textContent=rec.paused?(rec.pending?'Pause saved locally · publish to disable scans':'Paused · scans temporarily disabled'):rec.pending?'QR saved locally · publish to activate updates':(rec.publishMethod==='manual'?'Marked uploaded · scan-test the QR':'Published via GitHub · check Pages deployment');
+      $('permanentText').textContent=rec.qrUrl;$('permanentBlock').hidden=false;
+      $('downloadPNG').disabled=false;$('downloadSVG').disabled=false;
+    }catch(e){clearPreview();notify('QR generation failed: '+e.message,'error');}
+  }
+  function downloadBlob(data,fileName,type){
+    const blob=data instanceof Blob?data:new Blob([data],{type:type||'application/octet-stream'});
+    const a=document.createElement('a');const link=URL.createObjectURL(blob);a.href=link;a.download=fileName;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(link),2000);
+  }
+  function fileBase(){return currentId&&state.links[currentId]?'everqr-'+currentId:'everqr';}
+  function pngDownload(){
+    if(!currentQR)return;
+    const n=currentQR.getModuleCount(),quiet=4,pixels=Math.max(6,Math.ceil(1024/(n+quiet*2)));
+    const total=(n+quiet*2)*pixels;const canvas=document.createElement('canvas');canvas.width=canvas.height=total;
+    const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,total,total);ctx.fillStyle='#0b1d2c';
+    for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(currentQR.isDark(y,x))ctx.fillRect((x+quiet)*pixels,(y+quiet)*pixels,pixels,pixels);
+    canvas.toBlob(blob=>{if(blob)downloadBlob(blob,fileBase()+'.png','image/png');else notify('Could not export PNG. Try SVG instead.','error');},'image/png');
+  }
+  function getPublishedMap(){
+    const result={version:1,links:{}};
+    for(const rec of baseRecords()){
+      result.links[rec.id]={url:rec.url,title:rec.title,updatedAt:rec.updated,disabled:!!rec.paused};
+    }
+    return result;
+  }
+  function utf8b64(input){const bytes=new TextEncoder().encode(input);let binary='';for(let i=0;i<bytes.length;i++)binary+=String.fromCharCode(bytes[i]);return btoa(binary);}
+  function b64utf8(b64){const raw=atob(String(b64).replace(/\s/g,''));const out=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)out[i]=raw.charCodeAt(i);return new TextDecoder().decode(out);}
+  function downloadMap(){
+    if(!state.siteBase){notify('Set your website address first before publishing.','warning');$('setupPanel').open=true;return;}
+    if(!baseRecords().length&&!baseDeletions().length){notify('No QR codes or pending deletions in the selected website folder. Switch to the folder you need.','warning');return;}
+    const json=JSON.stringify(getPublishedMap(),null,2)+'\n';downloadBlob(json,'links.json','application/json');notify('Downloaded links.json for '+state.siteBase+' ONLY. Upload it to that exact folder, next to go.html.','success');
+  }
+  function downloadRouter(){downloadBlob(b64utf8(ROUTER_B64),'go.html','text/html');notify('Downloaded go.html. Upload it alongside links.json for initial setup or to upgrade your old redirect page for Pause support.','success');}
+  function markUploaded(){
+    if(!baseRecords().length&&!baseDeletions().length){notify('Nothing to publish for this folder.','warning');return;}
+    if(!confirm('Have you uploaded the latest links.json to '+state.siteBase+' (same folder as go.html)? This cannot verify hosting.'))return;
+    for(const rec of baseRecords()){rec.pending=false;rec.published=true;rec.publishMethod='manual';}
+    for(const id of baseDeletions())delete state.deletedIds[id];
+    saveState();uiSync();if(currentId&&state.links[currentId])displayQR(state.links[currentId]);
+    notify('Marked as uploaded (not independently verified). Scan-test the public QR URL to confirm.','success');
+  }
+  function backupExport(){
+    const backup={app:'EverQR Manager',version:4,exported:today(),siteBase:state.siteBase,siteLocked:false,links:state.links,trash:state.trash,deletedIds:state.deletedIds,github:state.github,githubSites:state.githubSites};
+    downloadBlob(JSON.stringify(backup,null,2)+'\n','everqr-backup.json','application/json');notify('Backup exported. Keep this file so you can recover your dashboard.','success');
+  }
+  function importBackup(file){
+    if(!file)return;const reader=new FileReader();reader.onload=()=>{
+      try{
+        const data=JSON.parse(String(reader.result));if(!data||!data.links||typeof data.links!=='object'||Array.isArray(data.links))throw Error('Not a valid EverQR JSON file.');
+        const base=data.siteBase?normalizeSite(data.siteBase):state.siteBase;
+        function cleanRecord(id,item){
+          if(!/^[a-zA-Z0-9_-]{4,32}$/.test(id)||!item)return null;
+          const target=normalizeDestination(item.url||item.target);
+          const permanent=item.qrUrl|| (base?new URL('go.html?id='+encodeURIComponent(id),base).href:'');
+          if(!permanent)return null;
+          const validPermanent=parseURL(permanent,'permanent QR');
+          return {id,title:String(item.title||item.name||'Untitled QR').slice(0,90),url:target,qrUrl:validPermanent.href,created:item.created||today(),updated:item.updated||today(),pending:!!item.pending,published:!!item.published,publishMethod:item.publishMethod||'',paused:!!item.paused};
+        }
+        const links={},trash={};
+        for(const [id,item] of Object.entries(data.links)){
+          const rec=cleanRecord(id,item);if(rec)links[id]=rec;
+        }
+        if(data.trash&&typeof data.trash==='object')for(const [id,item] of Object.entries(data.trash)){
+          const rec=cleanRecord(id,item);if(rec&&!links[id])trash[id]={...rec,deletedAt:item.deletedAt||today()};
+        }
+        const deletedIds={};
+        if(data.deletedIds&&typeof data.deletedIds==='object')for(const id of Object.keys(data.deletedIds))if(/^[a-zA-Z0-9_-]{4,32}$/.test(id)&&!links[id])deletedIds[id]=data.deletedIds[id]||today();
+        if(!Object.keys(links).length&&!Object.keys(trash).length)throw Error('No QR records were found in the JSON file.');
+        if(!confirm('Import '+Object.keys(links).length+' QR code(s) and '+Object.keys(trash).length+' Trash item(s)? This will replace your current QR workspace in this browser.'))return;
+        const githubSites=(data.githubSites&&typeof data.githubSites==='object')?data.githubSites:{};
+        const config={...DEFAULT.github,...(githubSites[base]||data.github||{})};
+        if(base)githubSites[base]=config;
+        for(const id of Object.keys(deletedIds)){
+          const entry=deletedIds[id];
+          if(!entry||typeof entry!=='object'||!entry.siteBase)deletedIds[id]={at:typeof entry==='string'?entry:today(),siteBase:trash[id]?recordBase(trash[id]):base};
+        }
+        state={siteBase:base,siteLocked:false,links,trash,deletedIds,github:config,githubSites};
+        selectedIds.clear();saveState();uiSync();const first=sortedRecords()[0];
+        if(first){currentId=first.id;selectRecord(currentId,false);}else{currentId='';clearPreview();}
+        notify('Backup imported. QR addresses, paused states and Trash are preserved.','success');
+      }catch(e){notify('Import failed: '+e.message,'error');}
+    };reader.readAsText(file);
+  }
+  // GitHub Contents API: browser-side commits, with no custom server.
+  function githubConfig(){
+    const owner=$('ghOwner').value.trim(),repo=$('ghRepo').value.trim(),branch=$('ghBranch').value.trim()||'main',token=$('ghToken').value.trim();
+    const folder=normalizeGithubFolder($('ghFolder').value);
+    if(!/^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/.test(owner))throw Error('Enter a valid GitHub username or organization.');
+    if(!/^[\w.-]{1,100}$/.test(repo))throw Error('Enter a valid GitHub repository name.');
+    if(!branch||branch.includes('..')||branch.startsWith('/')||branch.includes(' '))throw Error('Enter a valid Git branch.');
+    if(!token)throw Error('Enter a fine-grained GitHub token with Contents: read/write access.');
+    // Catch the common mistake of publishing files to a different repo/folder
+    // than the one embedded in this QR code.
+    const predicted=githubPagesBase({owner,repo,folder});
+    if(state.siteBase&&new URL(state.siteBase).hostname.toLowerCase().endsWith('.github.io')&&predicted.toLowerCase()!==state.siteBase.toLowerCase()){
+      throw Error('GitHub settings point to '+predicted+' but your website folder is '+state.siteBase+'. Fix the repository/folder, or click Use GitHub Pages URL.');
+    }
+    state.github={owner,repo,branch,folder};saveState();
+    return {owner,repo,branch,folder,token};
+  }
+  function normalizeGithubFolder(raw){
+    const txt=String(raw||'').trim().replace(/^\/+|\/+$/g,'');
+    if(!txt)return '';
+    const parts=txt.split('/');
+    if(parts.some(p=>!p||p==='.'||p==='..'||!/^[A-Za-z0-9_.-]+$/.test(p)))throw Error('Repository folder must look like events/2026 (no .. or special characters).');
+    return parts.join('/');
+  }
+  function githubPath(config,file){return (config.folder?config.folder+'/':'')+file;}
+  function githubPagesBase(config){
+    const root=config.repo.toLowerCase()===config.owner.toLowerCase()+'.github.io';
+    const path=(root?'':config.repo+'/')+(config.folder?config.folder+'/':'');
+    return 'https://'+config.owner.toLowerCase()+'.github.io/'+path;
+  }
+  function urlAPI(config,path){
+    return 'https://api.github.com/repos/'+encodeURIComponent(config.owner)+'/'+encodeURIComponent(config.repo)+'/contents/'+path.split('/').map(encodeURIComponent).join('/');
+  }
+  async function githubCall(config,method,path,data){
+    const url=urlAPI(config,path)+(method==='GET'?'?ref='+encodeURIComponent(config.branch):'');
+    const res=await fetch(url,{method,headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+config.token,'X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},...(data?{body:JSON.stringify(data)}:{})});
+    if(method==='GET'&&res.status===404)return null;
+    let json={};try{json=await res.json();}catch(e){}
+    if(!res.ok)throw Error('GitHub '+res.status+': '+(json.message||'Could not access repository or file.')+' Check the repository, branch, token, and Pages setup.');
+    return json;
+  }
+  async function githubRead(config,path){return await githubCall(config,'GET',path);}
+  async function githubWrite(config,path,content,sha,commit){
+    const body={message:commit,content:utf8b64(content),branch:config.branch};if(sha)body.sha=sha;
+    return await githubCall(config,'PUT',path,body);
+  }
+  async function publishGithub(){
+    if(!requireSite())return;
+    let config;try{config=githubConfig();}catch(e){notify(e.message,'error');$('publishArea').scrollIntoView({behavior:'smooth'});return;}
+    if(!baseRecords().length&&!baseDeletions().length){notify('No QR codes or pending deletions in '+state.siteBase+'. Switch to the correct website folder first.','warning');return;}
+    const publishBtn=$('publishGithub');publishBtn.disabled=true;publishBtn.textContent='Publishing...';
+    try{
+      const router=await githubRead(config,githubPath(config,'go.html'));
+      // Upgrade existing redirect page only when it belongs to EverQR. Needed for Pause support.
+      const currentRouter=router?b64utf8(router.content):'';
+      if(!router||currentRouter.includes('Ever<span>QR</span>')&&!currentRouter.includes('item.disabled === true')){
+        await githubWrite(config,githubPath(config,'go.html'),b64utf8(ROUTER_B64),router&&router.sha,'EverQR: '+(router?'upgrade':'add')+' redirect page');
+      }
+      const file=await githubRead(config,githubPath(config,'links.json'));
+      let remote={version:1,links:{}};
+      if(file){remote=JSON.parse(b64utf8(file.content));if(!remote||!remote.links||typeof remote.links!=='object'||Array.isArray(remote.links))throw Error('Remote links.json has an invalid structure.');}
+      let dirtyCount=0;
+      for(const rec of baseRecords()){
+        const desired={url:rec.url,title:rec.title,updatedAt:rec.updated,disabled:!!rec.paused};
+        const previous=remote.links[rec.id];
+        if(!previous||previous.url!==desired.url||previous.title!==desired.title||!!previous.disabled!==desired.disabled){remote.links[rec.id]=desired;dirtyCount++;}
+      }
+      for(const id of baseDeletions()){if(remote.links[id]){delete remote.links[id];dirtyCount++;}}
+      if(dirtyCount||!file){
+        const body=JSON.stringify(remote,null,2)+'\n';
+        await githubWrite(config,githubPath(config,'links.json'),body,file&&file.sha,'EverQR: sync '+dirtyCount+' QR link change(s)');
+      }
+      for(const rec of baseRecords()){rec.pending=false;rec.published=true;rec.publishMethod='github';}
+      for(const id of baseDeletions())delete state.deletedIds[id];
+      saveState();uiSync();if(currentId&&state.links[currentId])displayQR(state.links[currentId]);
+      notify(dirtyCount?'QR changes committed to GitHub (including deletes). Allow GitHub Pages to deploy, then scan-test.':'No outstanding changes. QR destinations already match the GitHub file.','success');
+    }catch(e){notify('Publishing failed: '+e.message,'error');}
+    finally{publishBtn.disabled=false;publishBtn.textContent='↗ Publish updates';}
+  }
+  async function loadGithub(){
+    let config;try{config=githubConfig();}catch(e){notify(e.message,'error');return;}
+    if(!requireSite())return;
+    const btn=$('loadGithub');btn.disabled=true;btn.textContent='Loading...';
+    try{
+      const remoteFile=await githubRead(config,githubPath(config,'links.json'));
+      if(!remoteFile)throw Error('No links.json found in the repository. Publish your first QR first.');
+      const json=JSON.parse(b64utf8(remoteFile.content));if(!json.links||typeof json.links!=='object')throw Error('Repository links.json has invalid format.');
+      let loaded=0;
+      for(const [id,item] of Object.entries(json.links)){
+        if(!/^[a-zA-Z0-9_-]{4,32}$/.test(id)||!item||typeof item.url!=='string')continue;
+        let target;try{target=normalizeDestination(item.url);}catch(e){continue;}
+        if(state.deletedIds[id]||state.trash[id]||state.links[id]?.pending)continue; // Preserve locally deleted and unpublished records.
+        const old=state.links[id];
+        if(old&&recordBase(old)!==state.siteBase)continue; // Never replace an existing QR from another folder.
+        state.links[id]={id,title:String(item.title||'Untitled QR').slice(0,90),url:target,qrUrl:old?.qrUrl||qrURL(id),created:old?.created||item.updatedAt||new Date().toISOString(),updated:item.updatedAt||new Date().toISOString(),pending:false,published:true,publishMethod:'github',paused:!!item.disabled};
+        loaded++;
+      }
+      saveState();uiSync();if(currentId&&state.links[currentId])selectRecord(currentId,false);
+      notify('Loaded '+loaded+' published QR link(s) from GitHub. Local edits and Trash were preserved.','success');
+    }catch(e){notify('Load failed: '+e.message,'error');}
+    finally{btn.disabled=false;btn.textContent='Load from GitHub';}
+  }
+  function suggestSite(){
+    const owner=$('ghOwner').value.trim(),repo=$('ghRepo').value.trim();
+    if(!owner||!repo){notify('Enter your GitHub username and repository first.','warning');return;}
+    let folder;try{folder=normalizeGithubFolder($('ghFolder').value);}catch(e){notify(e.message,'error');return;}
+    const base=githubPagesBase({owner,repo,folder});
+    const githubDetails={owner,repo,branch:$('ghBranch').value.trim()||'main',folder};
+    $('siteBase').value=base;
+    if(saveSite()){
+      state.github=githubDetails;saveState();uiSync();
+      notify('Website folder and its GitHub repository settings saved. New QR codes use '+base+'. Existing QR addresses stay unchanged.','success');
+    }
+  }
+  function copyQR(){
+    const item=state.links[currentId];if(item)copyText(item.qrUrl);
+  }
+  function testQRLink(){const item=state.links[currentId];if(item)window.open(item.qrUrl,'_blank','noopener,noreferrer');}
+  function applyRecordAndPublish(kind){
+    const rec=kind==='create'?createRecord():updateRecord();
+    if(rec){
+      $('publishArea').scrollIntoView({behavior:'smooth'});
+      const folder=recordBase(rec);
+      if(folder!==state.siteBase){
+        notify('Destination saved locally, but this QR belongs to '+folder+'. Switch to that website folder before publishing; the current folder would not update this QR.','warning');
+        $('setupPanel').open=true;return;
+      }
+      publishGithub();
+    }
+  }
+  function init(){
+    uiSync();if(!state.siteBase)$('setupPanel').open=true;
+    if(sortedRecords().length){currentId=sortedRecords()[0].id;selectRecord(currentId,false);}
+    $('changeSiteShortcut').addEventListener('click',e=>{e.preventDefault();$('setupPanel').open=true;$('setupPanel').scrollIntoView({behavior:'smooth',block:'start'});$('siteBase').focus({preventScroll:true});});
+    $('saveSite').addEventListener('click',saveSite);
+    $('useKnownSite').addEventListener('click',()=>{$('siteBase').value=$('knownSites').value;saveSite();});
+    $('switchToRecordSite').addEventListener('click',switchToRecordSite);
+    $('siteBase').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveSite();}});
+    $('tabCreate').addEventListener('click',()=>switchTab('create'));
+    $('tabEdit').addEventListener('click',()=>switchTab('edit'));
+    $('createForm').addEventListener('submit',e=>{e.preventDefault();createRecord();});
+    $('editForm').addEventListener('submit',e=>{e.preventDefault();updateRecord();});
+    $('createPublishBtn').addEventListener('click',()=>applyRecordAndPublish('create'));
+    $('editPublishBtn').addEventListener('click',()=>applyRecordAndPublish('edit'));
+    $('selectExisting').addEventListener('change',e=>selectRecord(e.target.value,false));
+    $('downloadPNG').addEventListener('click',pngDownload);
+    $('downloadSVG').addEventListener('click',()=>{if(currentQR)downloadBlob(qrSVG(currentQR),fileBase()+'.svg','image/svg+xml');});
+    $('copyQRLink').addEventListener('click',copyQR);
+    $('testQRLink').addEventListener('click',testQRLink);
+    $('downloadRouter').addEventListener('click',downloadRouter);
+    $('downloadLinks').addEventListener('click',downloadMap);
+    $('markUploaded').addEventListener('click',markUploaded);
+    $('exportBackup').addEventListener('click',backupExport);
+    $('importBackup').addEventListener('click',()=>$('importFile').click());
+    $('importFile').addEventListener('change',e=>{importBackup(e.target.files[0]);e.target.value='';});
+    $('qrSearch').addEventListener('input',renderLibrary);
+    $('qrFilter').addEventListener('change',()=>{selectedIds.clear();renderLibrary();});
+    $('qrSort').addEventListener('change',renderLibrary);
+    $('selectAllQR').addEventListener('change',e=>{for(const r of viewCollection()){if(e.target.checked)selectedIds.add(r.id);else selectedIds.delete(r.id);}renderLibrary();});
+    $('deleteSelected').addEventListener('click',()=>trashRecords([...selectedIds]));
+    $('newQRShortcut').addEventListener('click',()=>{switchTab('create');$('workspace').scrollIntoView({behavior:'smooth'});$('createName').focus();});
+    $('publishChangeShortcut').addEventListener('click',()=>{$('publishArea').scrollIntoView({behavior:'smooth'});});
+    $('suggestSite').addEventListener('click',suggestSite);
+    $('publishGithub').addEventListener('click',publishGithub);
+    $('loadGithub').addEventListener('click',loadGithub);
+    for(const id of ['ghOwner','ghRepo','ghBranch','ghFolder'])$(id).addEventListener('change',()=>{
+      state.github={owner:$('ghOwner').value.trim(),repo:$('ghRepo').value.trim(),branch:$('ghBranch').value.trim()||'main',folder:$('ghFolder').value.trim()};saveState();
+    });
+  }
+  init();
+})();
+</script>
+</body>
+</html>

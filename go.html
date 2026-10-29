@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>Taking you to your destination...</title>
+  <style>
+    :root{color-scheme:dark}*{box-sizing:border-box}
+    body{font:15px/1.6 system-ui,-apple-system,Segoe UI,sans-serif;margin:0;background:#071222;color:#edf8ff;display:grid;place-items:center;min-height:100vh;padding:22px}
+    .card{width:min(100%,440px);text-align:center;padding:38px 30px;background:#0f2036;border:1px solid #294564;border-radius:22px;box-shadow:0 16px 60px #0004}
+    .brand{font-weight:900;letter-spacing:-.8px;font-size:26px}.brand span{color:#47dbc7}
+    h1{font-size:22px;margin:20px 0 8px;letter-spacing:-.6px}p{color:#abc2d4;margin:0;font-size:14px}
+    .spinner{margin:25px auto 10px;width:38px;height:38px;border:4px solid #304d66;border-top-color:#48e2c7;border-radius:50%;animation:spin .8s linear infinite}
+    a{color:#55e5d2;overflow-wrap:anywhere}@keyframes spin{to{transform:rotate(360deg)}}
+    .error .spinner{display:none}
+  </style>
+</head>
+<body>
+  <main class="card" id="card">
+    <div class="brand">Ever<span>QR</span></div>
+    <div class="spinner" aria-hidden="true"></div>
+    <h1 id="heading">Opening your link</h1>
+    <p id="message" aria-live="polite">Checking the latest destination...</p>
+  </main>
+  <script>
+    (async function () {
+      'use strict';
+      const card = document.getElementById('card');
+      const heading = document.getElementById('heading');
+      const message = document.getElementById('message');
+      const id = new URLSearchParams(location.search).get('id');
+      function fail(text) {
+        card.classList.add('error');
+        heading.textContent = 'This QR link is unavailable';
+        message.textContent = text;
+      }
+      if (!id || !/^[a-zA-Z0-9_-]{4,32}$/.test(id)) {
+        fail('The QR code does not have a valid link ID.');
+        return;
+      }
+      try {
+        const response = await fetch('links.json?v=' + Date.now(), {cache: 'no-store'});
+        if (!response.ok) throw new Error('Link directory could not be loaded.');
+        const data = await response.json();
+        const item = data && data.links && data.links[id];
+        if (!item || typeof item.url !== 'string') {
+          fail('The destination has not been published, or this link has been removed.');
+          return;
+        }
+        if (item.disabled === true) {
+          fail('This QR code has been paused by its owner. Please check back later.');
+          return;
+        }
+        const url = new URL(item.url);
+        if (!['http:', 'https:'].includes(url.protocol)) {
+          fail('This QR destination is invalid.');
+          return;
+        }
+        window.location.replace(url.href);
+      } catch (error) {
+        fail('We could not retrieve the destination. Please try again shortly.');
+      }
+    })();
+  </script>
+</body>
+</html>
